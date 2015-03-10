@@ -1,0 +1,16 @@
+<?php 
+if( $code == 0 )
+{
+	$array = array();
+	$array['errcode'] = 0;
+	$array['data'] = $data;
+	ajax_echo( json_encode( $array ));
+}
+else
+{
+	$array = array();
+	$array['errcode'] = intval($code);
+	$array['errmsg'] = $message;
+	ajax_echo( json_encode( $array ));
+} 
+?>
