@@ -12,7 +12,6 @@ class defaultController extends appController
 	function index()
 	{
 		$data['title'] = $data['top_title'] = '首页';
-		$data['js'] = array('test.js');
 		render( $data );
 	}
 	
