@@ -1,0 +1,43 @@
+<div class="col-md-3 col-xs-3">
+  <ul class="list-group">
+    <li class="list-group-item <?php if (g('a') == 'news'): ?>active<?php endif ?>"><a href="?a=news">最新消息</a></li>
+    <li class="list-group-item <?php if (g('a') == 'tool'): ?>active<?php endif ?>"><a href="?a=tool">短址转换</a></li>
+    <li class="list-group-item <?php if (g('a') == 'messages'): ?>active<?php endif ?>"><a href="?a=messages">留言板</a></li>
+  </ul>
+</div>
+<div class="col-md-9 col-xs-9">
+  <div id="logo">新浪微博短址转换</div>
+  <div id="totalbox">
+    <div id="nav">
+      <span class="active" id="shortnav" onclick="changeTab(this,0);">缩短网址</span> 
+      <span class="normal" id="expandnav" onclick="changeTab(this,1);">还原网址</span>
+    </div>
+    <div id="stripe"></div>
+    <div id="opbox">
+      <div id="shortbox">
+        <div id="urlbox">
+          <input id="url" type="text" name="url" value="请输入要缩短的网址" onfocus="inputfocus(this);" onblur="javascript:if(this.value==''){this.value='请输入要缩短的网址';}">
+        </div>
+        <div id="subbtn">
+          <button type="button" class="button" onclick="shorturl();">缩&nbsp;短</button>
+        </div>
+      </div>
+      <div id="expandbox" style="display:none;">
+        <div id="surlbox">
+          <input id="surl" type="text" name="surl" value="请输入要还原的短址" onfocus="inputfocus(this);" onblur="javascript:if(this.value==''){this.value='请输入要还原的短址';}">
+        </div>
+        <div id="resbtn">
+          <button type="button" class="button" onclick="expandurl();">还&nbsp;原</button>
+        </div>
+      </div>
+      <div id="resbox">
+        <div id="splitline"></div>
+        <table id="resarea"><tbody><tr>
+          <td>链接：</td>
+          <td><span id="result"></span></td>
+          <td><button type="button" id="copybtn" data-clipboard-target="urltext" class="button" onclick="copyurl()">复制</button></td>
+        </tr></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>

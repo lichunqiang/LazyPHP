@@ -1,0 +1,136 @@
+
+
+#logo {
+	color: #565;
+	font-family: inherit;
+	text-align: center;
+	font-size: 40px;
+	font-weight: bold;
+	margin: 10px auto 20px auto;
+	width: 365px;
+	height: 60px;
+	text-shadow: 1px 1px 1px #333; 
+}
+
+#totalbox{
+	padding:20px 20px;
+	border: 1px solid #bbb;
+	border-radius:2px;
+	box-shadow:1px 1px 3px #ccc, -1px -1px 3px #ccc;
+}
+
+#nav{
+	width: 500px;
+	height: 34px;
+	font-size: 18px;
+	font-family:inherit;
+	color: #555;
+	border-bottom: 1px solid #a4a4a4;
+	border-left: 1px solid #a4a4a4;
+	text-shadow:1px 1px 1px #999;
+}
+#nav span{
+	display:block;
+	float:left;
+	width: 105px;
+	height: 33px;
+	text-align: center;
+	line-height: 33px;
+	border-top: 1px solid #a4a4a4;
+	border-right: 1px solid #a4a4a4;
+	position: relative;
+	margin-bottom: -1px;
+	cursor: pointer;
+}
+#totalbox .active{
+	font-weight: bold;
+	border-bottom: 1px solid #F4F4F4;
+}
+#totalbox .normal{
+	background-color: #fff;
+}
+#totalbox .blank{
+	margin:0;
+	padding:5px;
+	display:block;
+	width:30px;
+	border-bottom:1px solid #aaa;
+}
+
+#stripe{
+	clear:both;
+	width:510px;
+	height:20px;
+}
+
+#opbox{
+	clear:both;
+}
+
+#url{
+	color:#CC6666;
+	font-size:14px;
+	width: 500px;
+	height: 26px;
+	vertical-align: middle;
+	line-height: 20px;
+	background-color: #FFFFFF;
+	padding-left: 4px;
+}
+#subbtn{
+	margin-top:12px;
+	text-align:right;
+}
+#surl{
+	float:left;
+	color:#CC6666;
+	font-size:14px;
+	width: 430px;
+	height: 26px;
+	vertical-align: middle;
+	line-height: 20px;
+	background-color: #FFFFFF;
+	padding-left: 4px;
+}
+#resbtn{
+	margin-left:10px;
+	text-align:right;
+}
+
+#totalbox .button{
+	cursor:pointer;
+	font-family: inherit;
+	font-size:16px;
+	color: #F4F4F4;
+	background-color: #666;
+	width: 60px;
+	height: 30px;
+	vertical-align: middle;
+}
+
+#resbox{
+	display:none;
+	clear:both;
+}
+#resbox a{
+	text-decoration:none;
+	color:green;
+}
+#resbox a:hover{
+	text-decoration:underline;
+	color:red;
+}
+#splitline{
+	margin:20px 10px;
+	border-top:1px solid #888;
+}
+#resarea{
+	line-height:28px;
+}
+#urltext{
+	font-size:16px;
+	background-color:#F4F4F4;
+	font-family:inherit;
+	height:26px;
+	border:none;
+}

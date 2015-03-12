@@ -1,19 +1,50 @@
  <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">LazyPHP <?=lp_version();?></a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-             <li<?php if( g('a') == 'index' ): ?> class="active"<?php endif; ?>><a href="?a=index">Home</a></li>
-              <li<?php if( g('a') == 'about' ): ?> class="active"<?php endif; ?>><a href="?a=about">About</a></li>
-              <li<?php if( g('a') == 'contact' ): ?> class="active"<?php endif; ?>><a href="?a=contact">Contact</a></li>
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">LazyPHP <?=lp_version();?></a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li<?php if( g('a') == 'index' ): ?> class="active"<?php endif; ?>><a href="?a=index">首页</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-expanded="false">资源搜索区<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">人物包</a></li>
+            <li><a href="#">作者</a></li>
+            <li><a href="#">场景血条界面</a></li>
+            <li><a href="#">同人图</a></li>
+            <li><a href="#">格斗作品总览</a></li>
           </ul>
-        </div><!-- /.nav-collapse -->
-      </div><!-- /.container -->
-    </div><!-- /.navbar -->    
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-expanded="false">Mugen知识<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">入门必看</a></li>
+            <li><a href="#">人物制作</a></li>
+            <li><a href="#">AI教程</a></li>
+            <li><a href="#">AI技巧交流</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-expanded="false">其他栏目<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="?a=news">最新消息</a></li>
+            <li><a href="?a=tool">短址转换</a></li>
+            <li><a href="?a=messages">留言板</a></li>
+          </ul>
+        </li>
+        <li<?php if( g('a') == 'websites' ): ?> class="active"<?php endif; ?>><a href="?a=websites">相关站点</a></li>
+        <li<?php if( g('a') == 'about' ): ?> class="active"<?php endif; ?>><a href="?a=about">About</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li <?php if( g('a') == 'login' ): ?> class="active"<?php endif; ?>><a title="用户登录" href="?a=login">登录</a></li>
+        <li <?php if( g('a') == 'register' ): ?> class="active"<?php endif; ?>><a title="用户注册" href="?a=register">注册</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
