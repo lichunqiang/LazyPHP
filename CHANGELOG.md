@@ -1,3 +1,8 @@
+## 2015-03-14
+
+* 增加 render_ajax 方法用于返回ajax数据
+* 增加自动引导 confing/bootstrap.php , 用户存放或者启动整个流程都使用的方法和文件. 启动在分析和运行action之前
+
 ## 2015-03-10
 
 * 升级bootstrap为最新版

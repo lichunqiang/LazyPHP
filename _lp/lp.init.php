@@ -9,8 +9,9 @@ define( 'IN' , true );
 define( 'ROOT' , dirname( __FILE__ ) . DS );
 define( 'CROOT' , ROOT . 'core' . DS  );
 
-// define 
-error_reporting(E_ALL^E_NOTICE);
+// define
+// error_reporting(E_ALL^E_NOTICE);
+error_reporting(E_ALL);
 ini_set( 'display_errors' , true );
 
 include_once( CROOT . 'lib' . DS . 'core.function.php' );
@@ -19,7 +20,9 @@ include_once( CROOT . 'lib' . DS . 'core.function.php' );
 include_once( CROOT . 'config' .  DS . 'core.config.php' );
 include_once( AROOT . 'config' . DS . 'app.config.php' );
 
+$boootstrap_file = AROOT . 'config' . DS . 'bootstrap.php';
 
+file_exists($boootstrap_file) and include($boootstrap_file);
 
 $c = $GLOBALS['c'] = v('c') ? v('c') : c('default_controller');
 $a = $GLOBALS['a'] = v('a') ? v('a') : c('default_action');
@@ -30,12 +33,12 @@ $a =  basename(strtolower( z($a) ));
 $post_fix = '.class.php';
 
 $cont_file = AROOT . 'controller'  . DS . $c . $post_fix;
-$class_name = $c .'Controller' ; 
+$class_name = $c .'Controller' ;
 if( !file_exists( $cont_file ) )
 {
 	$cont_file = CROOT . 'controller' . DS . $c . $post_fix;
 	if( !file_exists( $cont_file ) ) die('Can\'t find controller file - ' . $c . $post_fix );
-} 
+}
 
 
 require_once( $cont_file );
@@ -56,7 +59,7 @@ $args=array();
 foreach($params as $param)
 {
    $name=$param->getName();
-   
+
    if( $param->isDefaultValueAvailable() )
    {
    		// get default value

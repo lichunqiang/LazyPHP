@@ -90,6 +90,8 @@ max-width: 1000px !important;
 
 .footer {margin-top: 25px}
 
+.error {color: #a94442;}
+
 .message-list {
   margin-bottom: 15px;
 }
@@ -104,6 +106,7 @@ max-width: 1000px !important;
 /*related websites*/
 .nav-box {
   list-style: none;
+  padding-left: 10px;
 }
 .nav-title {
   font-size: 28px;
@@ -130,3 +133,33 @@ border-bottom: 1px dashed #ccc;
   border: 1px dashed #999;
 }
 
+/*news*/
+.news {
+  width: 100%;
+  overflow: hidden;
+  zoom:1;
+  margin-bottom: 15px;
+  border: 1px solid #dfdfdf;
+  padding: 0 10px 10px 10px;
+}
+
+.news-header {
+  padding: 3px 0;
+  border-bottom: 1px solid lightgrey;
+}
+.news-title {
+  float: left;
+  margin-bottom: 0;
+  margin-top: 10px;
+}
+.news-date {
+  float: right;
+  margin-top: 20px;
+}
+.news-content {
+  vertical-align: top;
+  display: table-cell;
+  overflow: hidden;
+  zoom:1;
+  padding-top: 5px;
+}

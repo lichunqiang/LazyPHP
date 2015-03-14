@@ -1,10 +1,60 @@
 <div class="col-md-3 col-xs-3">
   <ul class="list-group">
-    <li class="list-group-item <?php if (g('a') == 'news'): ?>active<?php endif ?>"><a href="?a=news">最新消息</a></li>
-    <li class="list-group-item <?php if (g('a') == 'tool'): ?>active<?php endif ?>"><a href="?a=tool">短址转换</a></li>
-    <li class="list-group-item <?php if (g('a') == 'messages'): ?>active<?php endif ?>"><a href="?a=messages">留言板</a></li>
+    <a class="list-group-item <?php if (g('a') == 'news'): ?>active<?php endif ?>" href="?a=news">最新消息</a>
+    <a class="list-group-item <?php if (g('a') == 'tool'): ?>active<?php endif ?>" href="?a=tool">短址转换</a>
+    <a class="list-group-item <?php if (g('a') == 'messages'): ?>active<?php endif ?>" href="?a=messages">留言板</a>
   </ul>
 </div>
-<div class="col-md-3 col-xs-9">
-    
+<div class="col-md-9 col-xs-9">
+  <h3>发布新闻</h3>
+  <form id="publishForm" action="?c=api&a=savenews" method="POST" class="form-horizontal">
+    <div class="form-group">
+      <label class="col-md-2 col-xs-3 control-label">标题：</label>
+      <div class="col-md-10 col-xs-9">
+        <input type="text" name="title" class="form-control" placeholder="请输入新闻标题">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2 col-xs-3 control-label">网址：</label>
+      <div class="col-md-10 col-xs-9">
+        <input type="text" name="address" class="form-control" placeholder="请输入网址">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2 col-xs-3 control-label">内容：</label>
+      <div class="col-md-10 col-xs-9">
+        <textarea name="content" rows="5" class="form-control" placeholder="请输入新闻内容"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-10 col-md-offset-2 col-xs-9 col-xs-offset-3">
+        <?php if (User::isLogin()): ?>
+        <button type="submit" class="btn btn-primary">发布</button>
+        <button type="reset" class="btn btn-default">重置</button>
+        <?php else: ?>
+        <a href="?a=login&redirect=<?= urlencode('?a=news') ?>">登录后发布消息</a>          
+        <?php endif ?>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="col-md-12 col-xs-12">
+  <h3 id="news">最新消息</h3>
+  <?php foreach ($news_list as $news): ?>
+  <div class="news">
+    <div class="news-header clearfix">
+      <h3 class="news-title"><?= z($news['title']) ?></h3>
+      <small class="news-date"><?= $news['date'] ?></small>
+    </div>
+    <div class="news-content"><?= z($news['content']) ?></div>
+    <div class="news-footer clearfix">
+      <a href="<?= $news['address'] ?>" class="pull-right" target="_blank">传送门</a>
+    </div>
+  </div>
+  <?php endforeach ?>
+  <nav class="clearfix">
+    <strong class="pull-left mt25">共<?= $news_count ?>条新闻</strong>
+    <?= pagination($news_count, '?a=news', v('page_idx', 1)) ?>
+  </nav>
 </div>

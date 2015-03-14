@@ -7,11 +7,6 @@ include_once AROOT . 'controller' . DS . 'app.class.php';
 
 class defaultController extends appController
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function index()
     {
         $data['title'] = $data['top_title'] = '首页';
@@ -20,13 +15,35 @@ class defaultController extends appController
 
     public function login()
     {
+        if (User::isLogin()) {
+            return info_page('您已登录');
+        }
         $data['title'] = $data['top_title'] = '登录';
+        $data['js'] = ['jquery.form.min.js', 'jquery.validate.min.js', 'login.js'];
+
+        if (v('redirect')) {
+            User::setReturnUrl(v('redirect'));
+        }
+
+        if (is_ajax_request()) {
+
+            return user_ajax_login();
+        }
         render($data);
     }
 
     public function register()
     {
+        if (User::isLogin()) {
+            return info_page('您已登录');
+        }
+
+        if (is_ajax_request()) {
+
+            return user_ajax_register();
+        }
         $data['title'] = $data['top_title'] = '用户注册';
+        $data['js'] = ['jquery.form.min.js', 'jquery.validate.min.js', 'register.js'];
         render($data);
     }
 
@@ -41,6 +58,10 @@ class defaultController extends appController
     public function news()
     {
         $data['title'] = $data['top_title'] = '最新消息';
+        $data['js'] = ['jquery.form.min.js', 'jquery.validate.min.js', 'news.js'];
+
+        $data['news_count'] = get_news_count();
+        $data['news_list'] = get_news(v('page_idx', 1));
         render($data);
     }
 
@@ -53,7 +74,30 @@ class defaultController extends appController
     public function websites()
     {
         $data['title'] = $data['top_title'] = '相关站点';
+        $data['js'] = ['jquery.form.min.js', 'jquery.validate.min.js', 'websites.js'];
+
+        $data['list_1'] = get_website_by_cate(1);
+        $data['list_2'] = get_website_by_cate(2);
+        $data['list_3'] = get_website_by_cate(3);
         render($data);
+    }
+
+    public function portal()
+    {
+        $data['title'] = $data['top_title'] = '相关站点';
+        render($data);
+    }
+
+
+    public function logout()
+    {
+        User::logout();
+        forward('/');
+    }
+
+    public function __construct()
+    {
+        parent::__construct();
     }
 
     public function ajax_test()
@@ -106,8 +150,9 @@ class defaultController extends appController
 
     public function sql()
     {
-        db();
-        echo $sql = prepare("SELECT * FROM `user` WHERE `name` = ?s AND `uid` = ?i AND `level` = ?s LIMIT 1", array("Easy'", '-1', '9.56'));
+        $result = get_user_by_account('light');
+
+        var_dump($result);
     }
 
     public function binding

@@ -1,17 +1,17 @@
 <div class="panel panel-body clearfix">
 	<div class="col-md-8 col-xs-8 col-md-offset-1 col-xs-offset-1">
 		<h3 class="text-center ptb10">用户登录</h3>
-		<form class="form-horizontal" action="">
+		<form class="form-horizontal" action="?a=login" id="loginForm" method="POST">
       <div class="form-group">
         <label class="col-md-3 control-label">账号</label>
         <div class="col-md-9">
-          <input type="text" class="form-control" placeholder="输入登录账号">
+          <input type="text" name="account" class="form-control" placeholder="输入登录账号">
         </div>
       </div>
       <div class="form-group">
         <label class="col-md-3 control-label">密码</label>
         <div class="col-md-9">
-          <input type="password" class="form-control" placeholder="输入登录密码">
+          <input type="password" name="password" class="form-control" placeholder="输入登录密码">
         </div>
       </div>
       <div class="form-group">

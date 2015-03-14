@@ -13,8 +13,6 @@
       <link rel="stylesheet" type="text/css" href="<?=css($cfile)?>">
     <?php endforeach; ?>
   <?php endif; ?>
-  <script src="<?=js('jquery.min.js')?>"></script>
-  <script src="<?=js('bootstrap.min.js')?>"></script>
   <!--[if lt IE 9]>
     <script src="<?=js('html5.js')?>"></script>
   <![endif]-->
@@ -42,6 +40,8 @@
       <?php @include_once( dirname(__FILE__) ) . DS . 'footer.tpl.html'; ?>
     </div>
   </div>
+  <script src="<?=js('jquery.min.js')?>"></script>
+  <script src="<?=js('bootstrap.min.js')?>"></script>
   <?php if( isset($js) && is_array( $js ) ): ?>
     <?php foreach( $js as $jfile ): ?>
       <script type="text/javascript" src="<?=js($jfile)?>" ></script>
