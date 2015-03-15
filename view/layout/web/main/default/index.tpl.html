@@ -66,33 +66,15 @@
       </ul>
       <div class="tab-content">
         <div class="tab-pane active">
+          <?php foreach ($news_list as $news): ?>
           <div class="message-list">
             <div class="message-title">
-              <a href="">测试阿凡达发</a>
-              <span class="message-date">2014-12-12</span>
+              <a href="<?= $news['address'] ?>"><?= z($news['title']) ?></a>
+              <span class="message-date"><?= $news['date'] ?></span>
             </div>
-            <div class="message-body">
-              打算的撒旦撒旦撒旦撒旦撒旦撒的撒打算打算撒旦啊
-            </div>
+            <div class="message-body"><?= truncate(z($news['content']), 30) ?></div>
           </div>
-          <div class="message-list">
-            <div class="message-title">
-              <a href="">测试阿凡达发</a>
-              <span class="message-date">2014-12-12</span>
-            </div>
-            <div class="message-body">
-              打算的撒旦撒旦撒旦撒旦撒旦撒的撒打算打算撒旦啊
-            </div>
-          </div>
-          <div class="message-list">
-            <div class="message-title">
-              <a href="">测试阿凡达发</a>
-              <span class="message-date">2014-12-12</span>
-            </div>
-            <div class="message-body">
-              打算的撒旦撒旦撒旦撒旦撒旦撒的撒打算打算撒旦啊
-            </div>
-          </div>
+          <?php endforeach ?>
         </div>
       </div>
     </div>

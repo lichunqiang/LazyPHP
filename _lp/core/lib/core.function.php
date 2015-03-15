@@ -123,7 +123,8 @@ function render( $data = NULL , $layout = NULL , $sharp = 'default' )
 		}
 		elseif( is_mobile_request() )
 		{
-			$layout = 'mobile';
+			// $layout = 'mobile';
+            $layout = 'web';
 		}
 		else
 		{

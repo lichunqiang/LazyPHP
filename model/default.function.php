@@ -52,7 +52,7 @@ function user_ajax_login()
  * 用户注册
  * @return ajax
  */
-function user_ajax_register()
+function user_ajax_register($authority = 1)
 {
     $username = t(v('account'));
     $password = t(v('password'));
@@ -92,7 +92,8 @@ function user_ajax_register()
         return render_ajax(array('errcode' => 1, 'errmsg' => 'error', 'errinfo' => $errinfo));
     }
 
-    $sql = prepare("INSERT INTO `user` (`username`, `password`, `email`) VALUES (?s, ?s, ?s);", array($username, md5($password), $email));
+    $sql = prepare("INSERT INTO `user` (`username`, `password`, `email`) VALUES (?s, ?s, ?s, ?i);",
+                    array($username, md5($password), $email, $authority));
 
     $result = run_sql($sql);
     if ($result) {

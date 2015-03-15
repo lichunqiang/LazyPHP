@@ -1,0 +1,112 @@
+<?php require AROOT . 'view/layout/web/side/default/resource.tpl.html'; ?>
+<?php 
+$conditions = g('person_search_condition');
+ ?>
+<div class="col-md-9 col-xs-12 mb20">
+  <div class="col-md-12 pb20 border-bottom">
+    <p class="text-center mb20" style="font-size:25px;">人物搜索</p>
+    <div class="form-inline text-center">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="请输入搜索关键字">
+      </div>
+      <button type="submit" class="btn btn-default">检索</button>
+    </div>
+  </div>
+  <div class="col-md-12 form-inline mb15 mt15">
+    <div class="form-group ml55">
+      <label class="mr10">作者</label>
+      <input type="text" class="form-control" placeholder="Jane Doe">
+    </div>
+    <div class="form-group ml55">
+      <label class="mr10">角色完成度</label>
+      <select name="" id="" class="form-control">
+        <option value="">不限</option>
+        <?php foreach ($conditions['person_completion'] as $key => $value): ?>
+        <option value="<?= $key ?>"><?= $value ?></option>
+        <?php endforeach ?>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-12 form-inline mb15">
+    <div class="form-group" style="margin-left:28px;">
+      <label class="mr10">作品来源</label>
+      <input type="text" class="form-control" placeholder="Jane Doe">
+    </div>
+  </div>
+  <div class="col-md-12 form-inline">
+    <div class="form-group mr20">
+      <label class="mr10">人物最高强度</label>
+      <select name="" id="" class="form-control">
+        <option value="">不限</option>
+        <?php foreach ($conditions['person_strongth'] as $key => $value): ?>
+        <option value="<?= $key ?>"><?= $value ?></option>
+        <?php endforeach ?>
+      </select>
+    </div>
+    <div class="form-group mr20">
+      <label class="mr10">人物最低强度</label>
+      <select name="" id="" class="form-control">
+        <option value="">不限</option>
+        <?php foreach ($conditions['person_strongth'] as $key => $value): ?>
+        <option value="<?= $key ?>"><?= $value ?></option>
+        <?php endforeach ?>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="mr10">可用Mugen版本</label>
+      <select name="" id="" class="form-control">
+        <option value="">不限</option>
+        <?php foreach ($conditions['mugen_version'] as $key => $value): ?>
+        <option value="<?= $key ?>"><?= $value ?></option>
+        <?php endforeach ?>
+      </select>
+    </div>
+  </div>
+</div>
+<!-- 列表 -->
+<div class="col-md-12 col-xs-12 table-responsive">
+  <table class="table">
+    <tr>
+      <th>#</th>
+      <th>人物名</th>
+      <th>强度</th>
+      <th>出处</th>
+      <th>最近更新</th>
+      <th>备注</th>
+      <th>mugen版本</th>
+      <th>操作</th>
+    </tr>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><a href="">任务打 <br>ligh</a></td>
+        <td>强-凶 <br> (基本完成)</td>
+        <td>北斗神拳</td>
+        <td>2015-03-14</td>
+        <td>12p无限气金身，1p强袭，1.1主程序中无法带入版本</td>
+        <td>不限</td>
+        <td>
+          <a href=""><i class="glyphicon glyphicon-edit"></i></a>
+          <a href=""><i class="glyphicon glyphicon-star"></i></a>
+        </td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td><a href="">任务打 <br>ligh</a></td>
+        <td>强-凶 <br> (基本完成)</td>
+        <td>北斗神拳</td>
+        <td>2015-03-14</td>
+        <td>12p无限气金身，1p强袭，1.1主程序中无法带入版本</td>
+        <td>不限</td>
+        <td>
+          <a href=""><i class="glyphicon glyphicon-edit"></i></a>
+          <a href=""><i class="glyphicon glyphicon-star"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <nav class="clearfix">
+    <strong class="pull-left mt25">共12条新闻</strong>
+    <?= pagination(12, '?c=resource&a=person', v('page_idx', 1)) ?>
+  </nav>
+</div>

@@ -131,3 +131,46 @@ function getUserClientIp()
     }
     return $ip;
 }
+/**
+* Truncates a string to the number of characters specified.
+*
+* @param string $string The string to truncate.
+* @param integer $length How many characters from original string to include into truncated string.
+* @param string $suffix String to append to the end of truncated string.
+* @param string $encoding The charset to use, defaults to charset currently used by application.
+* @param boolean $asHtml Whether to treat the string being truncated as HTML and preserve proper HTML tags.
+* This parameter is available since version 2.0.1.
+* @return string the truncated string.
+*/
+function truncate($string, $length, $suffix = '...', $encoding = null)
+{
+    if (mb_strlen($string, $encoding ?: 'UTF-8') > $length) {
+        return trim(mb_substr($string, 0, $length, $encoding ?: 'UTF-8')) . $suffix;
+    } else {
+        return $string;
+    }
+}
+
+/**
+ * Truncates a string to the number of words specified.
+ *
+ * @param string $string The string to truncate.
+ * @param integer $count How many words from original string to include into truncated string.
+ * @param string $suffix String to append to the end of truncated string.
+ * @param boolean $asHtml Whether to treat the string being truncated as HTML and preserve proper HTML tags.
+ * This parameter is available since version 2.0.1.
+ * @return string the truncated string.
+ */
+function truncateWords($string, $count, $suffix = '...', $asHtml = false)
+{
+    if ($asHtml) {
+        return self::truncateHtml($string, $count, $suffix);
+    }
+
+    $words = preg_split('/(\s+)/u', trim($string), null, PREG_SPLIT_DELIM_CAPTURE);
+    if (count($words) / 2 > $count) {
+        return implode('', array_slice($words, 0, ($count * 2) - 1)) . $suffix;
+    } else {
+        return $string;
+    }
+}

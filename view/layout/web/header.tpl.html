@@ -14,20 +14,20 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-expanded="false">资源搜索区<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">人物包</a></li>
-            <li><a href="#">作者</a></li>
-            <li><a href="#">场景血条界面</a></li>
-            <li><a href="#">同人图</a></li>
-            <li><a href="#">格斗作品总览</a></li>
+            <li><a href="?c=resource&a=person">人物包</a></li>
+            <li><a href="?c=resource&a=author">作者</a></li>
+            <li><a href="?c=resource&a=scenario">场景血条界面</a></li>
+            <li><a href="?c=resource&a=figure">同人图</a></li>
+            <li><a href="?c=resource&a=ftg">格斗作品总览</a></li>
           </ul>
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-expanded="false">Mugen知识<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">入门必看</a></li>
-            <li><a href="#">人物制作</a></li>
-            <li><a href="#">AI教程</a></li>
-            <li><a href="#">AI技巧交流</a></li>
+            <li><a href="?a=portal">入门必看</a></li>
+            <li><a href="?a=portal">人物制作</a></li>
+            <li><a href="?a=portal">AI教程</a></li>
+            <li><a href="?a=skills">AI技巧交流</a></li>
           </ul>
         </li>
         <li class="dropdown">
@@ -47,7 +47,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button"><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="javascript:void(0);">欢迎您, <?= $user['username'] ?></a></li>
-            <li><a href="">上传</a></li>
+            <li><a href="?c=upload&a=author">上传</a></li>
             <li><a href="?a=logout">退出</a></li>  
           </ul>
         </li>

@@ -1,0 +1,51 @@
+<?php require AROOT . 'view/layout/web/side/default/resource.tpl.html'; ?>
+<div class="col-md-9 col-xs-12">
+  <div class="col-md-12 pb20 border-bottom">
+    <p class="text-center mb20" style="font-size:25px;">同人图素材搜索</p>
+    <div class="form-inline text-center">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="请输入搜索关键字">
+      </div>
+      <button type="submit" class="btn btn-default">检索</button>
+    </div>
+  </div>
+</div>
+<div class="col-md-12">
+  <table class="table">
+    <tr>
+      <th>#</th>
+      <th>缩略图</th>
+      <th>作者</th>
+      <th>包含人物</th>
+      <th>操作</th>
+    </tr>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><a href="http://placehold.it/100x100" target="_blank"><img class="img-rounded" src="http://placehold.it/100x100"></a></td>
+        <td>不详</td>
+        <td>暴风、文文</td>
+        <td>
+          <a href=""><i class="glyphicon glyphicon-edit"></i></a>
+          <a href=""><i class="glyphicon glyphicon-star"></i></a>
+          <a href=""><i class="glyphicon glyphicon-remove"></i></a>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><a href="http://placehold.it/100x100" target="_blank"><img class="img-rounded" src="http://placehold.it/100x100"></a></td>
+        <td>不详</td>
+        <td>暴风、文文</td>
+        <td>
+          <a href=""><i class="glyphicon glyphicon-edit"></i></a>
+          <a href=""><i class="glyphicon glyphicon-star"></i></a>
+          <a href=""><i class="glyphicon glyphicon-remove"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <nav class="clearfix">
+    <strong class="pull-left mt25">共12条新闻</strong>
+    <?= pagination(12, '?c=resource&a=person', v('page_idx', 1)) ?>
+  </nav>
+</div>

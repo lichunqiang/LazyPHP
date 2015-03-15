@@ -1,0 +1,22 @@
+<div class="col-md-3 hidden-xs">
+  <div class="panel-group" id="accordion">
+    <?php foreach (c('portal_nav') as $nav_key => $nav): ?>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a href="<?php if (isset($nav['children'])): ?>#collapse<?= $nav_key ?><?php else: ?><?= $nav['link'] ?><?php endif ?>" <?php if (isset($nav['children'])): ?>data-toggle="collapse" data-parent="#accordin" aria-expanded="true"<?php endif ?>><?= $nav['parent'] ?></a>
+        </h4>
+      </div>
+      <?php if (isset($nav['children'])): ?>
+      <div class="panel-collapse collapse" id="collapse<?= $nav_key ?>">
+        <ul class="list-group">
+          <?php foreach ($nav['children'] as $nav_children): ?>
+          <a href="<?= $nav['link'] . $nav_children['id'] ?>" class="list-group-item pl40 blue-hover"><?= $nav_children['label'] ?></a> 
+          <?php endforeach ?>
+        </ul>
+      </div>
+      <?php endif ?>
+    </div> 
+    <?php endforeach ?>
+  </div>
+</div>

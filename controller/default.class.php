@@ -10,6 +10,7 @@ class defaultController extends appController
     public function index()
     {
         $data['title'] = $data['top_title'] = '首页';
+        $data['news_list'] = get_news(1, 4);
         render($data);
     }
 
@@ -84,7 +85,13 @@ class defaultController extends appController
 
     public function portal()
     {
-        $data['title'] = $data['top_title'] = '相关站点';
+        $data['title'] = $data['top_title'] = '入门知识';
+        render($data);
+    }
+
+    public function skills()
+    {
+        $data['title'] = $data['top_title'] = 'AI技术交流';
         render($data);
     }
 

@@ -1,0 +1,45 @@
+<?php require AROOT . 'view/layout/web/side/default/portal.tpl.html'; ?>
+<div class="col-md-9 col-xs-12">
+  <h3>发布文章</h3>
+  <form id="publishForm" action="?c=api&a=saveskill" method="POST" class="form-horizontal">
+    <div class="form-group">
+      <label class="col-md-2 col-xs-3 control-label">标题：</label>
+      <div class="col-md-10 col-xs-9">
+        <input type="text" name="title" class="form-control" placeholder="请输入标题">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2 col-xs-3 control-label">内容：</label>
+      <div class="col-md-10 col-xs-9">
+        <textarea name="content" rows="5" class="form-control" placeholder="请输入新闻内容"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-10 col-md-offset-2 col-xs-9 col-xs-offset-3">
+        <?php if (User::isLogin()): ?>
+        <button type="submit" class="btn btn-primary">发布</button>
+        <button type="reset" class="btn btn-default">重置</button>
+        <?php else: ?>
+        <a href="?a=login&redirect=<?= urlencode('?a=news') ?>">登录后发布消息</a>          
+        <?php endif ?>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="col-md-12 col-xs-12">
+  <h3 id="news">AI技术交流</h3>
+  <div class="news">
+    <div class="news-header clearfix">
+      <h3 class="news-title">这里是标题</h3>
+      <small class="news-date">2015-03-15</small>
+    </div>
+    <div class="news-content">这里是内容啊啊啊啊啊啊啊啊啊啊 啊</div>
+    <div class="news-footer clearfix">
+      <a href="" class="pull-right" target="_blank">传送门</a>
+    </div>
+  </div>
+  <nav class="clearfix">
+    <strong class="pull-left mt25">共12条新闻</strong>
+    <?= pagination(12, '?a=skills', v('page_idx', 1)) ?>
+  </nav>
+</div>

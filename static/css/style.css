@@ -40,6 +40,7 @@ max-width: 1000px !important;
 .ml30{margin-left: 30px;}
 .ml35{margin-left: 35px;}
 .ml50{margin-left: 50px;}
+.ml55{margin-left: 55px;}
 .mr5{margin-right: 5px;}
 .mr10{margin-right: 10px;}
 .mr15{margin-right: 15px;}
@@ -58,6 +59,7 @@ max-width: 1000px !important;
 .pl15{padding-left: 15px;}
 .pl20{padding-left: 20px;}
 .pl30{padding-left: 30px;}
+.pl40{padding-left: 40px;}
 .pr5{padding-right: 5px;}
 .pr20{padding-right: 20px;}
 .pr25{padding-right: 25px;}
@@ -82,11 +84,17 @@ max-width: 1000px !important;
 .ptb20 {padding-top: 20px; padding-bottom:20px;}
 .ptb8 {padding-top: 8px; padding-bottom:8px;}
 
+.text-bold {font-weight: bold;}
+.border-bottom {border-bottom: 1px solid #aaaaaa;}
+
 .landing-notice {font-weight: bold;font-size: 30px;}
 .tab-more {color: #000;margin-top: 12px;}
 .tab-pane {background-color: #fff;padding: 10px 15px;}
 .list-group-item.active>a{color: #fff;}
 .list-group-item>a{color: #000;text-decoration: none;}
+a.blue-hover:hover {background-color: #4593d5;color: #fff;}
+
+.center-img {margin:0 auto;}
 
 .footer {margin-top: 25px}
 
@@ -161,5 +169,8 @@ border-bottom: 1px dashed #ccc;
   display: table-cell;
   overflow: hidden;
   zoom:1;
-  padding-top: 5px;
+  padding-top: 15px;
 }
+
+/*articles*/
+.article .article-title {font-weight: bold;}
