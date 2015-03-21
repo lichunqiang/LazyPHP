@@ -2,48 +2,55 @@
 <div class="col-md-9 col-xs-12">
   <div class="col-md-12 pb20 border-bottom">
     <p class="text-center mb20" style="font-size:25px;">作者搜索</p>
-    <div class="form-inline text-center">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="请输入搜索关键字">
+    <form action="/?c=resource&a=author" method="GET">
+      <input type="hidden" name="c" value="resource">
+      <input type="hidden" name="a" value="author">
+      <div class="form-inline text-center">
+        <div class="form-group">
+          <input type="text" name="q" class="form-control" placeholder="请输入搜索关键字" value="<?= z(v('q')) ?>">
+        </div>
+        <button type="submit" class="btn btn-default">检索</button>
       </div>
-      <button type="submit" class="btn btn-default">检索</button>
-    </div>
+    </form>
   </div>
 </div>
 <div class="col-md-12">
   <table class="table">
     <tr>
-      <th>#</th>
-      <th>作者</th>
+      <th width="10">#</th>
+      <th width="150">作者</th>
       <th>备注</th>
-      <th>最后更新</th>
-      <th>操作</th>
+      <th width="100">最后更新</th>
+      <th width="50">操作</th>
     </tr>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td><a href="">任务打 <br>ligh</a></td>
-        <td>12p无限气金身，1p强袭，1.1主程序中无法带入版本</td>
-        <td>2015-03-14</td>
-        <td>
-          <a href=""><i class="glyphicon glyphicon-edit"></i></a>
-          <a href=""><i class="glyphicon glyphicon-star"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td><a href="">任务打 <br>ligh</a></td>
-        <td>12p无限气金身，1p强袭，1.1主程序中无法带入版本</td>
-        <td>2015-03-14</td>
-        <td>
-          <a href=""><i class="glyphicon glyphicon-edit"></i></a>
-          <a href=""><i class="glyphicon glyphicon-star"></i></a>
-        </td>
-      </tr>
+    <?php foreach ($author_list as $author): ?>
+    <tr>
+      <td><?= $author['id'] ?></td>
+      <td>
+        <a href="<?= $author['address'] ?>"><?= z($author['name']) ?></a>
+        <?php if ($author['address_status'] == 1): ?>
+          <small class="text-muted">(地址失效)</small>
+        <?php endif ?>
+      </td>
+      <td><?= z($author['remark']) ?></td>
+      <td><?= date('Y-m-d', $author['update_time']) ?></td>
+      <td>
+        <a href="?c=resource&a=author"><i class="glyphicon glyphicon-edit"></i></a>
+        <a href=""><i class="glyphicon glyphicon-star"></i></a>
+      </td>
+    </tr>
+    <?php endforeach ?>
     </tbody>
   </table>
   <nav class="clearfix">
-    <strong class="pull-left mt25">共12条新闻</strong>
-    <?= pagination(12, '?c=resource&a=person', v('page_idx', 1)) ?>
+    <strong class="pull-left mt25">总共<?= $author_count ?>,显示<?= ($page_idx - 1) * $page_size ?>至<?= $page_idx * $page_size ?></strong>
+    <?php
+      $url = '?c=resource&a=author';
+      if ($query = z(v('q'))) {
+        $url .= '&q=' . urlencode($query);
+      }
+      echo pagination($author_count, $url, $page_idx);
+    ?>
   </nav>
 </div>

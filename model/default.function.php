@@ -125,8 +125,9 @@ function get_news_count($checked = 1)
 {
     if ($checked === false) {
         $sql = 'SELECT COUNT(*) `total` FROM `news`;';
+    } else {
+        $sql = prepare('SELECT COUNT(*) `total` FROM `news` WHERE `checked` = ?i;', array($checked));
     }
-    $sql = prepare('SELECT COUNT(*) `total` FROM `news` WHERE `checked` = ?i;', array($checked));
     return (int) get_var($sql);
 }
 /**
@@ -140,10 +141,42 @@ function get_news($page_idx = 1, $page_size = 10 ,$checked = 1)
     if ($checked === false) {
         $sql = prepare('SELECT * FROM `news` ORDER BY `date` DESC LIMIT ?i OFFSET ?i;', array($page_size, $page_offset));
     } else {
-
+        $sql = prepare('SELECT * FROM `news` WHERE `checked` = ?i  ORDER BY `date` DESC LIMIT ?i OFFSET ?i;',
+                         array($checked, $page_size, $page_offset));
     }
-    $sql = prepare('SELECT * FROM `news` WHERE `checked` = ?i  ORDER BY `date` DESC LIMIT ?i OFFSET ?i;',
-                    array($checked, $page_size, $page_offset));
+
+    return get_data($sql);
+}
+/**
+ * 获取AI经验交流文章总数
+ * @param  integer|boolean $status 文章状态 0.禁用 1.正常  false 不以status为过滤条件
+ * @return int
+ */
+function get_skill_article_count($status = 1)
+{
+    if ($status === false) {
+        $sql = 'SELECT COUNT(*) `total` FROM `skill_article`;';
+    } else {
+        $sql = prepare('SELECT COUNT(*) `total` FROM `skill_article` WHERE `status` = ?i;', array($status));
+    }
+    return (int) get_var($sql);
+}
+/**
+ * 获取AI检验交流文章列表
+ * @param  integer $page_idx  当前页数
+ * @param  integer $page_size 每个个数
+ * @param  integer|boolean $status 文章状态 0.禁用 1.正常  false 不以status为过滤条件
+ * @return int
+ */
+function get_skill_article_list($page_idx = 1, $page_size = 10, $status = 1)
+{
+    $page_offset = ($page_idx - 1) * $page_size;
+    if ($status === false) {
+        $sql = prepare('SELECT * FROM `skill_article` ORDER BY `created_at` DESC LIMIT ?i OFFSET ?i;', array($page_size, $page_offset));
+    } else {
+        $sql = prepare('SELECT * FROM `skill_article` WHERE `status` = ?i  ORDER BY `created_at` DESC LIMIT ?i OFFSET ?i;',
+                         array($status, $page_size, $page_offset));
+    }
 
     return get_data($sql);
 }

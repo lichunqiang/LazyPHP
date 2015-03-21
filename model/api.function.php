@@ -69,3 +69,72 @@ function save_news($checked = 0)
     }
     return render_ajax(array('errcode' => 1, 'errmsg' => db_error(), 'errinfo' => array('content' => '保存失败')));
 }
+/**
+ * 保存AI经验交流文章
+ * @return  ajax
+ */
+function save_kill_article()
+{
+    $title = t(v('title'));
+    $content = t(v('content'));
+    $user_id = User::getUserId();
+    $date = date('Y-m-d');
+
+    $errinfo = array();
+
+    if (empty($title)) {
+        $errinfo['title'] = '标题不能为空';
+    }
+
+    if (empty($content)) {
+        $errinfo['content'] = '内容不能为空';
+    }
+
+    if(!empty($errinfo)) {
+        return render_ajax(array('errcode' => 1, 'errmsg' => 'error', 'errinfo' => $errinfo));
+    }
+
+    $sql = prepare('INSERT INTO `skill_article` (`title`, `created_at`, `created_by`, `content`) VALUES (?s, ?s, ?s, ?s);',
+                    array($title, $date, $user_id, $content));
+    if (run_sql($sql)) {
+        return render_ajax(array('errcode' => 0, 'errmsg' => '提交成功'));
+    }
+    return render_ajax(array('errcode' => 1, 'errmsg' => db_error(), 'errinfo' => array('content' => '保存失败')));
+}
+/**
+ * 保存作者信息
+ * @return ajax
+ */
+function save_author()
+{
+
+
+    $name = t(v('name'));
+    $address = t(v('address'));
+    $invalid = (int) v('invalid');
+    $remark = t(v('remark'));
+    $update_time = $_SERVER['REQUEST_TIME'];
+    $checked = 0; //默认不通过
+
+    $errinfo = array();
+
+    if (empty($name)) {
+        $errinfo['title'] = '作者名称不能为空';
+    }
+
+    if (empty($address)) {
+        $errinfo['address'] = '请输入链接地址';
+    }
+
+    if(!empty($errinfo)) {
+        return render_ajax(array('errcode' => 1, 'errmsg' => 'error', 'errinfo' => $errinfo));
+    }
+
+    $sql = prepare('INSERT INTO `mugenauthors` (`name`, `address`, `address_status`, `remark`, `update_time`, `checked`) VALUES
+                (?s, ?s, ?i, ?s, ?s, ?i)', array($name, $address, $invalid, $remark, $update_time, $checked));
+
+    if (run_sql($sql)) {
+        return render_ajax(array('errcode' => 0, 'errmsg' => '提交成功'));
+    }
+    return render_ajax(array('errcode' => 1, 'errmsg' => db_error(), 'errinfo' => array('content' => '保存失败')));
+}

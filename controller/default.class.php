@@ -11,6 +11,7 @@ class defaultController extends appController
     {
         $data['title'] = $data['top_title'] = '首页';
         $data['news_list'] = get_news(1, 4);
+        $data['ai_skills'] = get_skill_article_list(1, 5);
         render($data);
     }
 
@@ -92,6 +93,13 @@ class defaultController extends appController
     public function skills()
     {
         $data['title'] = $data['top_title'] = 'AI技术交流';
+        $data['js'] = ['jquery.form.min.js', 'jquery.validate.min.js',
+            'ueditor/ueditor.config.js', 'ueditor/ueditor.all.min.js',
+            'ueditor/lang/zh-cn/zh-cn.js', 'skills.js'];
+
+        $data['article_count'] = get_skill_article_count();
+        $data['article_list'] = get_skill_article_list();
+
         render($data);
     }
 

@@ -11,7 +11,7 @@
     <div class="form-group">
       <label class="col-md-2 col-xs-3 control-label">内容：</label>
       <div class="col-md-10 col-xs-9">
-        <textarea name="content" rows="5" class="form-control" placeholder="请输入新闻内容"></textarea>
+        <textarea id="content" name="content" rows="5" placeholder="请输入新闻内容"></textarea>
       </div>
     </div>
     <div class="form-group">
@@ -26,20 +26,25 @@
     </div>
   </form>
 </div>
-<div class="col-md-12 col-xs-12">
+<?php if ($article_list): ?>
+ <div class="col-md-12 col-xs-12">
   <h3 id="news">AI技术交流</h3>
+  <?php foreach ($article_list as $article): ?>
   <div class="news">
     <div class="news-header clearfix">
-      <h3 class="news-title">这里是标题</h3>
-      <small class="news-date">2015-03-15</small>
+      <h3 class="news-title"><?= z($article['title']) ?></h3>
+      <small class="news-date"><?= $article['created_at'] ?></small>
     </div>
-    <div class="news-content">这里是内容啊啊啊啊啊啊啊啊啊啊 啊</div>
-    <div class="news-footer clearfix">
+    <div class="news-content"><?= strip_tags($article['content'], '<p><span><img><em>') ?></div>
+    <!-- <div class="news-footer clearfix">
       <a href="" class="pull-right" target="_blank">传送门</a>
-    </div>
+    </div> -->
   </div>
+  <?php endforeach ?>
   <nav class="clearfix">
     <strong class="pull-left mt25">共12条新闻</strong>
-    <?= pagination(12, '?a=skills', v('page_idx', 1)) ?>
+    <?= pagination($article_count, '?a=skills', v('page_idx', 1)) ?>
   </nav>
-</div>
+</div> 
+<?php endif ?>
+

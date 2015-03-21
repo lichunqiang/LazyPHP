@@ -84,36 +84,18 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       AI技巧交流
-      <a href="" class="pull-right">更多</a>
+      <a href="?a=skills" class="pull-right">更多</a>
     </div>
     <div class="panel-body">
+      <?php foreach ($ai_skills as $item): ?>
       <div class="message-list">
         <div class="message-title">
-          <a href="">测试阿凡达发</a>
-          <span class="message-date">2014-12-12</span>
+          <a href="###"><?= z($item['title']) ?></a>
+          <span class="message-date"><?= $item['created_at'] ?></span>
         </div>
-        <div class="message-body">
-          打算的撒旦撒旦撒旦撒旦撒旦撒的撒打算打算撒旦啊
-        </div>
+        <div class="message-body"><?= truncate(strip_tags($item['content'], '<p><span><img><em>'), 200) ?></div>
       </div>
-      <div class="message-list">
-        <div class="message-title">
-          <a href="">测试阿凡达发</a>
-          <span class="message-date">2014-12-12</span>
-        </div>
-        <div class="message-body">
-          打算的撒旦撒旦撒旦撒旦撒旦撒的撒打算打算撒旦啊
-        </div>
-      </div>
-      <div class="message-list">
-        <div class="message-title">
-          <a href="">测试阿凡达发</a>
-          <span class="message-date">2014-12-12</span>
-        </div>
-        <div class="message-body">
-          打算的撒旦撒旦撒旦撒旦撒旦撒的撒打算打算撒旦啊
-        </div>
-      </div>
+      <?php endforeach ?>
     </div>
   </div>
 </div>

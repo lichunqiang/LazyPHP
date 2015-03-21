@@ -20,6 +20,23 @@ class apiController extends appController
         return save_news();
     }
 
+    public function saveskill()
+    {
+        if (!User::isLogin()){
+            return render_ajax(array('errcode' => 1, 'errmsg' => '需要登录'));
+        }
+        return save_kill_article();
+    }
+
+    public function upload_author()
+    {
+        if (!User::isLogin()) {
+            return render_ajax(array('errcode' => 1, 'errmsg' => '需要登录'));
+        }
+
+        return save_author();
+    }
+
     public function __construct()
     {
         parent::__construct();

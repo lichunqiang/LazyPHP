@@ -23,6 +23,7 @@ class uploadController extends appController
     public function author()
     {
        $data['title'] = $data['top_title'] = '作者搜索';
+       $data['js'] = ['jquery.validate.min.js', 'jquery.form.min.js', 'upload/author.js'];
        render($data);
     }
     public function scenario()

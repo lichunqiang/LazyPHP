@@ -29,6 +29,14 @@ class User
         return isset($_SESSION['user']) ? $_SESSION['user'] : null;
     }
 
+    public static function getUserId()
+    {
+        if (isset($_SESSION['user'])) {
+            return $_SESSION['user']['id'];
+        }
+        return null;
+    }
+
     public static function login($user)
     {
         $_SESSION['user'] = $user;
