@@ -26,6 +26,7 @@ class resourceController extends appController
        $data['page_size'] = $page_size;
        render($data);
     }
+
     public function scenario()
     {
        $data['title'] = $data['top_title'] = '场景及其他';

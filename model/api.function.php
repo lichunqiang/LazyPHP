@@ -107,7 +107,7 @@ function save_kill_article()
  */
 function save_author()
 {
-
+    $author_id = v('author_id');
 
     $name = t(v('name'));
     $address = t(v('address'));
@@ -129,9 +129,13 @@ function save_author()
     if(!empty($errinfo)) {
         return render_ajax(array('errcode' => 1, 'errmsg' => 'error', 'errinfo' => $errinfo));
     }
-
-    $sql = prepare('INSERT INTO `mugenauthors` (`name`, `address`, `address_status`, `remark`, `update_time`, `checked`) VALUES
+    if ($author_id) {
+        $sql = prepare('UPDATE `mugenauthors` SET `name`=?s, `address`=?s, `address_status`=?i, `remark`=?s,
+                        `update_time`=?s WHERE `id`=?s', array($name, $address, $invalid, $remark, $update_time, $author_id));
+    } else {
+        $sql = prepare('INSERT INTO `mugenauthors` (`name`, `address`, `address_status`, `remark`, `update_time`, `checked`) VALUES
                 (?s, ?s, ?i, ?s, ?s, ?i)', array($name, $address, $invalid, $remark, $update_time, $checked));
+    }
 
     if (run_sql($sql)) {
         return render_ajax(array('errcode' => 0, 'errmsg' => '提交成功'));

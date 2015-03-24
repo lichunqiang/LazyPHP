@@ -6,9 +6,15 @@ $conditions = g('person_search_condition');
   <form class="form-horizontal">
     <div class="form-group">
       <label class="col-sm-3 control-label">人物名称：</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" placeholder="请输入人物名称">
-        <small class="help-block">可以直接写文件名</small>
+      <div class="col-sm-9 row">
+        <div class="col-sm-7">
+          <input type="text" class="form-control" placeholder="请输入人物名称">
+          <small class="help-block">人物的中文或者英文名，如 拉奥、saber</small>
+        </div>
+        <div class="col-sm-5">
+          <button type="button" class="btn btn-primary">选择</button>
+          <small class="help-block">推荐！选择后其他项会自动填充</small>
+        </div>
       </div>
     </div>
     <div class="form-group">
@@ -53,10 +59,14 @@ $conditions = g('person_search_condition');
     <div class="form-group">
       <label class="col-sm-3 control-label">人物缩略图：</label>
       <div class="col-sm-4">
-        <input type="file" class="form-control">
+        <div id="uploader-demo">
+          <!--用来存放item-->
+          <div id="fileList" class="uploader-list"></div>
+          <div id="filePicker">选择图片</div>
+        </div>
       </div>
       <div class="col-sm-5">
-        <img class="img-rounded" src="http://placehold.it/100x100">
+        <img id="filePreview" class="img-rounded" src="http://placehold.it/100x100">
       </div>
     </div>
     <div class="form-group">

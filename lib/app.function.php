@@ -9,10 +9,13 @@
  */
 function pagination($count, $url, $index = 1, $size = 10)
 {
-
     $fpage = 0;
+    if (0 == $count) {
+        return '';
+    }
     //总的页数
     $num = $count > 0 ? (intval(($count - 1) / $size) + 1) : 1;
+
     if (strpos($url, '?') === false) {
         $url .= '?page_idx=';
     } else {

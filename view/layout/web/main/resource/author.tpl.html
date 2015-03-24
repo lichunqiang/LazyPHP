@@ -36,7 +36,7 @@
       <td><?= z($author['remark']) ?></td>
       <td><?= date('Y-m-d', $author['update_time']) ?></td>
       <td>
-        <a href="?c=resource&a=author"><i class="glyphicon glyphicon-edit"></i></a>
+        <a href="?c=upload&a=authorup&id=<?= $author['id'] ?>"><i class="glyphicon glyphicon-edit"></i></a>
         <a href=""><i class="glyphicon glyphicon-star"></i></a>
       </td>
     </tr>

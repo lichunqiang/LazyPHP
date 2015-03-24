@@ -1,0 +1,50 @@
+<?php require AROOT . 'view/layout/web/side/default/upload.tpl.html'; ?>
+<div class="col-md-9 col-xs-12">
+  <form class="form-horizontal" id="authorForm" method="POST" action="?c=api&a=upload_author">
+    <div class="form-group">
+      <label class="col-sm-3 control-label">作者名称：</label>
+      <div class="col-sm-9">
+        <input type="text" name="name" class="form-control" placeholder="请输入作者名称" value="<?= $author['name'] ?>">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">作者主页地址：</label>
+      <div class="col-sm-9">
+        <input type="text" name="address" class="form-control" placeholder="请输入作者主页链接地址" value="<?= $author['address'] ?>">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-9 col-sm-offset-3">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="1" name="invalid" <?php if ($author['address_status'] == 1): ?>checked="checked"<?php endif ?>>
+            地址已失效
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">备注：</label>
+      <div class="col-sm-9">
+        <textarea rows="5" name="remark" class="form-control" placeholder="备注内容"><?= $author['remark'] ?></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <div class="alert alert-warning">
+            <strong>注意!</strong> 请再三确认您的资源是否已经有人提交。
+            <p>若您打算修改已有资源，请在<span class="text-danger">搜索页</span>进行搜索并点击修改进行操作</p>
+            <p>若您打算补充格斗游戏内还没有的资源，请在<span class="text-danger">作品页</span>找到资源进行修改操作</p>
+            <p>否则同名人物会按新数据处理</p>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary">提交</button>
+        <a class="btn btn-default" href="/">取消</a>
+      </div>
+    </div>
+    <input type="hidden" name="author_id" value="<?= $author['id'] ?>">
+  </form>
+</div>

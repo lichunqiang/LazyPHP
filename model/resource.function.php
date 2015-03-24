@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * 获取作者总数
+ * @param  string  $query   查询条件：作者名称或者备注信息
+ * @param  integer $checked 是否显示
+ * @return int 作者总数
+ */
 function get_author_count($query, $checked = 1)
 {
     $prepare_data = array();
@@ -17,7 +22,14 @@ function get_author_count($query, $checked = 1)
 
     return (int) get_var($sql);
 }
-
+/**
+ * 获取作者列表
+ * @param  string  $query     查询条件：作者名称或者备注信息
+ * @param  integer $page_idx  页数
+ * @param  integer $page_size 每页数量
+ * @param  integer $checked   是否显示
+ * @return array|boolean 成功返回列表，失败返回false
+ */
 function get_author_list($query, $page_idx = 1, $page_size = 10, $checked = 1)
 {
     $page_offset = ($page_idx - 1) * $page_size;
@@ -40,5 +52,5 @@ function get_author_list($query, $page_idx = 1, $page_size = 10, $checked = 1)
 
     $sql = prepare($sql, $prepare_data);
 
-    return get_data($sql);
+    return get_data($sql) ?: array();
 }
