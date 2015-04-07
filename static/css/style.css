@@ -85,6 +85,7 @@ max-width: 1000px !important;
 
 .text-bold {font-weight: bold;}
 .border-bottom {border-bottom: 1px solid #aaaaaa;}
+.border-top {border-top: 1px solid #aaaaaa;}
 
 .landing-notice {font-weight: bold;font-size: 30px;}
 .tab-more {color: #000;margin-top: 12px;}
@@ -94,6 +95,11 @@ max-width: 1000px !important;
 a.blue-hover:hover {background-color: #4593d5;color: #fff;}
 
 .center-img {margin:0 auto;}
+
+.required:after {
+content: " *";
+color: #ED1C24;
+}
 
 .footer {margin-top: 25px}
 
@@ -203,3 +209,12 @@ border-bottom: 1px dashed #ccc;
   pointer-events:none;
 }
 
+.uploader-list img {
+  max-height: 150px;
+  max-width: 200px;
+}
+
+#content {
+  background-color: #fff;
+  padding: 15px 10px;
+}

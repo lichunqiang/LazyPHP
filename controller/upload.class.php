@@ -18,7 +18,8 @@ class uploadController extends appController
     {
        $data['title'] = $data['top_title'] = '上传人物';
        $data['js'] = ['jquery.validate.min.js', 'jquery.form.min.js',
-                        'gallery/webuploader.min.js', 'upload/characters.js'];
+                        'gallery/webuploader.min.js',
+                        'gallery/template.js', 'upload/characters.js'];
        render($data);
     }
 

@@ -58,11 +58,11 @@ function save_news($checked = 0)
         $errinfo['content'] = '内容不能为空';
     }
 
-    if(!empty($errinfo)) {
+    if (!empty($errinfo)) {
         return render_ajax(array('errcode' => 1, 'errmsg' => 'error', 'errinfo' => $errinfo));
     }
     $sql = prepare('INSERT INTO `news` (`title`, `address`, `content`, `date`, `checked`) VALUES (?s, ?s, ?s, ?s, ?i);',
-                    array($title, $address, $content, $date, $checked));
+        array($title, $address, $content, $date, $checked));
 
     if (run_sql($sql)) {
         return render_ajax(array('errcode' => 0, 'errmsg' => '提交成功'));
@@ -90,12 +90,12 @@ function save_kill_article()
         $errinfo['content'] = '内容不能为空';
     }
 
-    if(!empty($errinfo)) {
+    if (!empty($errinfo)) {
         return render_ajax(array('errcode' => 1, 'errmsg' => 'error', 'errinfo' => $errinfo));
     }
 
     $sql = prepare('INSERT INTO `skill_article` (`title`, `created_at`, `created_by`, `content`) VALUES (?s, ?s, ?s, ?s);',
-                    array($title, $date, $user_id, $content));
+        array($title, $date, $user_id, $content));
     if (run_sql($sql)) {
         return render_ajax(array('errcode' => 0, 'errmsg' => '提交成功'));
     }
@@ -126,7 +126,7 @@ function save_author()
         $errinfo['address'] = '请输入链接地址';
     }
 
-    if(!empty($errinfo)) {
+    if (!empty($errinfo)) {
         return render_ajax(array('errcode' => 1, 'errmsg' => 'error', 'errinfo' => $errinfo));
     }
     if ($author_id) {
@@ -141,4 +141,42 @@ function save_author()
         return render_ajax(array('errcode' => 0, 'errmsg' => '提交成功'));
     }
     return render_ajax(array('errcode' => 1, 'errmsg' => db_error(), 'errinfo' => array('content' => '保存失败')));
+}
+/**
+ * 保存人物
+ * @return ajax
+ */
+function save_person()
+{
+    $primary_key = v('primary_key');
+    $name = t(v('name'));
+    $name_roman = t(v('name_roman'));
+    $belong_game = t(v('belong_game'));
+    $belong_anime = t(v('belong_anime'));
+    $keywords = t(v('keywords'));
+    $thumbnail = t(v('thumbnail'));
+    $completion_status = (int) v('completion_status');
+    $date = date('Y-m-d');
+    $user_id = User::getUserId();
+
+    $belong_ftg = match_ftg($belong_game);
+    empty($belong_ftg) or ($belong_ftg = implode(',', $belong_ftg));
+
+    if ($primary_key && is_numeric($primary_key)) {
+        $sql = prepare('UPDATE `characters` SET `name`=?s, `name_roman`= ?s, `belong_game`=?s, `belong_ftg`=?s, `belong_anime`=?s,
+            `keywords`=?s, `thumbnail`=?s, `completion_status`=?i, `created_at`=?s, `created_by`=?i, `updated_at`=?s,
+            `updated_by`=?i WHERE `id`=?i', array($name, $name_roman, $belong_game, $belong_ftg,
+            $belong_anime, $keywords, $thumbnail, $completion_status, $date, $user_id, $date, $user_id, $primary_key));
+    } else {
+
+        $sql = prepare('INSERT INTO `characters` (`name`, `name_roman`, `belong_game`, `belong_ftg`, `belong_anime`,
+            `keywords`, `thumbnail`, `completion_status`, `created_at`, `created_by`, `updated_at`, `updated_by`)
+            VALUES (?s, ?s, ?s, ?s, ?s, ?s, ?s, ?i, ?s, ?i, ?s,?i)', array($name, $name_roman, $belong_game, $belong_ftg,
+            $belong_anime, $keywords, $thumbnail, $completion_status, $date, $user_id, $date, $user_id));
+    }
+
+    if (run_sql($sql)) {
+        return render_ajax(array('errcode' => 0, 'errmsg' => '提交成功', 'key' => $primary_key ? $primary_key : last_id()));
+    }
+    return render_ajax(array('errcode' => 1, 'errmsg' => db_error(), 'errinfo' => array('name' => '保存失败')));
 }

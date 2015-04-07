@@ -37,6 +37,15 @@ class apiController extends appController
         return save_author();
     }
 
+    public function upload_person()
+    {
+        if (!User::isLogin()) {
+            return render_ajax(array('errcode' => 1, 'errmsg' => '需要登录'));
+        }
+
+        return save_person();
+    }
+
     public function __construct()
     {
         parent::__construct();

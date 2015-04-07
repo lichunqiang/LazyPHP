@@ -10,7 +10,13 @@ class resourceController extends appController
 
     public function person()
     {
+       $page_idx = v('page_idx', 1);
+       $page_size = 50;
        $data['title'] = $data['top_title'] = '人物搜索';
+       $data['person_count'] = get_person_count();
+       $data['person_list'] = get_person_list($page_idx, $page_size);
+       $data['page_idx'] = $page_idx;
+       $data['page_size'] = $page_size;
        render($data);
     }
 

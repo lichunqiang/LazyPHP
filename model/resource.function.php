@@ -54,3 +54,59 @@ function get_author_list($query, $page_idx = 1, $page_size = 10, $checked = 1)
 
     return get_data($sql) ?: array();
 }
+/**
+ * 获取人物总数
+ * @return int
+ */
+function get_person_count()
+{
+    $query = t(v('query'));
+    $magic = (int) v('magic');
+    $author = t(v('author'));
+    $progress = v('progress');
+    $source = t(v('source'));
+    $strength_highest = v('strength_highest');
+    $strength_lowest = v('strength_lowest');
+    $version = v('version');
+
+    $prepare_data = array();
+    $where = array(' WHERE 1 ');
+    if ($query) {
+        $prepare_data[] = $query;
+        $prepare_data[] = $query;
+        $prepare_data[] = $query;
+        $where[] = "a.`name` LIKE '%\s%' OR a.`name_roman` LIKE '%\s%' OR a.`keywords` LIKE '%\s%'";
+    }
+
+    if ($magic == 1) {
+        $prepare_data[] = $magic;
+        $where[] = 'a.`magic_chaged`=?i';
+    }
+
+    if ($progress !== false)  {
+        $prepare_data[] = $progress;
+        $where[] = 'a.`completion_status`=?i';
+    }
+
+    $sql = prepare('SELECT * FROM `characters` a LEFT JOIN `characters_author` b
+        ON a.`id`=b.`characters_id`');
+}
+/**
+ * 获取人物列表
+ * @param  int $page_idx
+ * @param  int $page_size
+ * @return array
+ */
+function get_person_list($page_idx, $page_size)
+{
+    $query = t(v('query'));
+    $magic = (int) v('magic');
+    $author = t(v('author'));
+    $progress = v('progress');
+    $source = t(v('source'));
+    $strength_highest = v('strength_highest');
+    $strength_lowest = v('strength_lowest');
+    $version = v('version');
+
+    $sql = prepare('SELECT * FROM `characers` a LEFT JOIN `characers_author`');
+}

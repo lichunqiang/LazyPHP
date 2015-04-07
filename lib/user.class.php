@@ -13,11 +13,11 @@
  */
 class User
 {
-    public $_authority = [
+    public $_authority = array(
         1 => '普通用户',
         8 => '高级用户',
         9 => '管理员',
-    ];
+    );
 
     public static function isLogin()
     {

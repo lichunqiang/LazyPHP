@@ -109,6 +109,7 @@ $GLOBALS['config']['fgt_nav'] = array(
 //人物搜索条件
 $GLOBALS['person_search_condition'] = array(
     'role_completion' => array(1 => '已完成', 2 => '基本完成', 3 => '未完成'),
+    'character_completion' => array(1 => '已完成', 2 => '无人物', 3 => '未完成', 4 => '基本完成'),
     'mugen_version' => array(1 => 'win', 2 => '1.0', 3 => '1.1a', 4 => '1.1b'),
     'person_strongth' => array(1 => '无AI', 2 => '纸', 3 => '并', 4 => '强', 5 => '凶', 6 => '狂', 7 => '神', 8 => '论外'),
     'category' => array(1 => '血条', 2 => '选人界面', 3 => '场景'),
