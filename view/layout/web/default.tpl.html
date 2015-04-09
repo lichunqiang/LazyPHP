@@ -22,8 +22,10 @@
   <![endif]-->
 </head>    
 <body>
+  <script src="<?=js('jquery.min.js')?>"></script>
+  <script src="<?=js('bootstrap.min.js')?>"></script>
  	<?php @include_once( dirname(__FILE__) ) . DS . 'header.tpl.html'; ?>  
-  <div id="content" class="container">
+  <div id="body-content" class="container">
     <div class="row">
     <?php 
       $tfile = 'view' . DS . 'layout' . DS  . g('layout') . DS . 'main' . DS . g('c') . DS . g('a') . '.tpl.html';
@@ -40,8 +42,7 @@
       <?php @include_once( dirname(__FILE__) ) . DS . 'footer.tpl.html'; ?>
     </div>
   </div>
-  <script src="<?=js('jquery.min.js')?>"></script>
-  <script src="<?=js('bootstrap.min.js')?>"></script>
+  
   <?php if( isset($js) && is_array( $js ) ): ?>
     <?php foreach( $js as $jfile ): ?>
       <script type="text/javascript" src="<?=js($jfile)?>" ></script>

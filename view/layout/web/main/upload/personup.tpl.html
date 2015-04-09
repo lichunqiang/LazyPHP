@@ -8,7 +8,7 @@ $conditions = g('person_search_condition');
       <label class="col-sm-3 control-label required">人物名称：</label>
       <div class="col-sm-9 row">
         <div class="col-sm-7">
-          <input name="name" type="text" class="form-control" placeholder="请输入人物名称">
+          <input name="name" type="text" class="form-control" placeholder="请输入人物名称" value="<?= $model['name'] ?>">
           <small class="help-block">人物的中文或者英文名，如 拉奥、saber</small>
         </div>
         <div class="col-sm-5">
@@ -20,14 +20,14 @@ $conditions = g('person_search_condition');
     <div class="form-group">
       <label class="col-sm-3 control-label">罗马音</label>
       <div class="col-sm-9">
-        <input name="name_roman" type="text" class="form-control" placeholder="请输入罗马音">
+        <input name="name_roman" type="text" class="form-control" placeholder="请输入罗马音" value="<?= $model['name_roman'] ?>">
         <small class="help-block">人物名字的罗马音，如：拉奥的罗马音是Raoh</small>
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-3 control-label required">所属格斗游戏：</label>
       <div class="col-sm-9">
-        <input name="belong_ftg" type="text" class="form-control" placeholder="请输入所属格斗游戏">
+        <input name="belong_ftg" type="text" class="form-control" placeholder="请输入所属格斗游戏" value="<?= $model['belong_ftg'] ?>">
         <small class="help-block">该人物出自的格斗游戏，原创人物写原创，魔改人物需要填写人物原型出处</small>
       </div>
     </div>
@@ -35,7 +35,7 @@ $conditions = g('person_search_condition');
       <div class="col-sm-9 col-sm-offset-3">
         <div class="checkbox">
           <label>
-            <input name="magic_changed" type="checkbox" value="1">
+            <input name="magic_changed" type="checkbox" value="1" <?php if ($model['magic_changed'] == 1): ?>checked="checked"<?php endif ?>>
             是否是魔改
           </label>
           <small class="text-muted">该人物强度与原作差异过大的算作魔改</small>
@@ -45,14 +45,14 @@ $conditions = g('person_search_condition');
     <div class="form-group">
       <label class="col-sm-3 control-label required">所属动漫作品：</label>
       <div class="col-sm-9">
-        <input name="belong_anime" type="text" class="form-control" placeholder="请输入所属动漫作品" value="无">
+        <input name="belong_anime" type="text" class="form-control" placeholder="请输入所属动漫作品" value="无" value="<?= $model['belong_anime'] ?>">
         <small class="help-block">该场景出自的动漫作品，若没有则默认无</small>
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-3 control-label">其他关键字：</label>
       <div class="col-sm-9">
-        <input name="keywords" type="text" class="form-control" placeholder="请输入关键词">
+        <input name="keywords" type="text" class="form-control" placeholder="请输入关键词" value="<?= $model['keywords'] ?>">
         <small class="help-block">多个关键字用英文逗号隔开,如：拳王,大爷,哥哥</small>
       </div>
     </div>
@@ -61,20 +61,24 @@ $conditions = g('person_search_condition');
       <div class="col-sm-4">
         <div id="uploader-demo">
           <!--用来存放item-->
-          <div id="fileList" class="uploader-list"></div>
+          <div id="fileList" class="uploader-list">
+            <?php if ($model['thumbnail']): ?>
+              <img src="<?= $model['thumbnail'] ?>" alt="">
+            <?php endif ?>
+          </div>
           <div id="filePicker">选择图片</div>
         </div>
       </div>
       <div class="col-sm-5">
       </div>
-      <input type="hidden" name="thumbnail" id="hidThumbnail">
+      <input type="hidden" name="thumbnail" id="hidThumbnail" value="<?= $model['thumbnail'] ?>">
     </div>
     <div class="form-group">
       <label class="col-sm-3 control-label">人物完成状态：</label>
       <div class="col-sm-9">
         <select name="completion_status" class="form-control">
           <?php foreach ($conditions['character_completion'] as $key => $value): ?>
-            <option value="<?= $key ?>"><?= $value ?></option>
+            <option value="<?= $key ?>" <?php if ($model['completion_status'] == $key): ?>selected="selected"<?php endif ?>><?= $value ?></option>
           <?php endforeach ?>
         </select>
       </div>
@@ -95,7 +99,7 @@ $conditions = g('person_search_condition');
         <a class="btn btn-default" href="/">取消</a>
       </div>
     </div>
-    <input type="hidden" id="primaryKey" name="primary_key">
+    <input type="hidden" id="primaryKey" name="primary_key" value="<?= $model['id'] ?>">
   </form>
 </div>
 <div class="col-md-12 col-xs-12">
@@ -131,7 +135,7 @@ $conditions = g('person_search_condition');
 <script id="tAuthorModal" type="text/x-template">
 <div class="modal fade">
   <div class="modal-dialog modal-lg">
-    <form id="authorForm" class="form-horizontal" action="?c=api&a=upload_person_author">
+    <form id="authorForm" class="form-horizontal" method="POST" action="?c=api&a=upload_person_author">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -179,7 +183,7 @@ $conditions = g('person_search_condition');
         <div class="form-group">
           <label class="col-sm-3 control-label">人物最低强度</label>
           <div class="col-sm-3">
-            <select name="strength_heightest" class="form-control">
+            <select name="strength_highest" class="form-control">
             <?php foreach ($conditions['person_strongth'] as $key => $value): ?>
             <option value="<?= $key ?>"><?= $value ?></option>
             <?php endforeach ?>

@@ -151,7 +151,7 @@ function save_person()
     $primary_key = v('primary_key');
     $name = t(v('name'));
     $name_roman = t(v('name_roman'));
-    $belong_game = t(v('belong_game'));
+    $belong_ftg = t(v('belong_ftg'));
     $belong_anime = t(v('belong_anime'));
     $keywords = t(v('keywords'));
     $thumbnail = t(v('thumbnail'));
@@ -159,19 +159,18 @@ function save_person()
     $date = date('Y-m-d');
     $user_id = User::getUserId();
 
-    $belong_ftg = match_ftg($belong_game);
-    empty($belong_ftg) or ($belong_ftg = implode(',', $belong_ftg));
+    $belong_ftg_map = implode(',', match_ftg($belong_ftg));
 
     if ($primary_key && is_numeric($primary_key)) {
-        $sql = prepare('UPDATE `characters` SET `name`=?s, `name_roman`= ?s, `belong_game`=?s, `belong_ftg`=?s, `belong_anime`=?s,
+        $sql = prepare('UPDATE `characters` SET `name`=?s, `name_roman`= ?s, `belong_ftg`=?s, `belong_ftg_map`=?s, `belong_anime`=?s,
             `keywords`=?s, `thumbnail`=?s, `completion_status`=?i, `created_at`=?s, `created_by`=?i, `updated_at`=?s,
-            `updated_by`=?i WHERE `id`=?i', array($name, $name_roman, $belong_game, $belong_ftg,
+            `updated_by`=?i WHERE `id`=?i', array($name, $name_roman, $belong_ftg, $belong_ftg_map,
             $belong_anime, $keywords, $thumbnail, $completion_status, $date, $user_id, $date, $user_id, $primary_key));
     } else {
 
-        $sql = prepare('INSERT INTO `characters` (`name`, `name_roman`, `belong_game`, `belong_ftg`, `belong_anime`,
+        $sql = prepare('INSERT INTO `characters` (`name`, `name_roman`, `belong_ftg`, `belong_ftg_map`, `belong_anime`,
             `keywords`, `thumbnail`, `completion_status`, `created_at`, `created_by`, `updated_at`, `updated_by`)
-            VALUES (?s, ?s, ?s, ?s, ?s, ?s, ?s, ?i, ?s, ?i, ?s,?i)', array($name, $name_roman, $belong_game, $belong_ftg,
+            VALUES (?s, ?s, ?s, ?s, ?s, ?s, ?s, ?i, ?s, ?i, ?s,?i)', array($name, $name_roman, $belong_ftg, $belong_ftg_map,
             $belong_anime, $keywords, $thumbnail, $completion_status, $date, $user_id, $date, $user_id));
     }
 
@@ -179,4 +178,168 @@ function save_person()
         return render_ajax(array('errcode' => 0, 'errmsg' => '提交成功', 'key' => $primary_key ? $primary_key : last_id()));
     }
     return render_ajax(array('errcode' => 1, 'errmsg' => db_error(), 'errinfo' => array('name' => '保存失败')));
+}
+/**
+ * 保存人物作者
+ * @return ajax
+ */
+function save_person_author()
+{
+    $character_id = v('character');
+    $author = t(v('author'));
+    $version = v('version');
+    $address = v('address');
+    $opts = v('opts');
+    $strength_highest = v('strength_highest');
+    $strength_lowest = v('strength_lowest');
+    $remark = t(v('remark'));
+    is_array($opts) and ($opts = implode(',', $opts));
+    $user_id = User::getUserId();
+    $now = date('Y-m-d');
+
+    $errinfo = array();
+    if (empty($character_id) || !is_numeric($character_id)) {
+        $errinfo['remark'] = '请先上传人物';
+    }
+    if (empty($address)) {
+        $errinfo['address'] = '下载地址不能为空';
+    }
+
+    if (!empty($errinfo)) {
+        return render_ajax(array('errcode' => 1, 'errmsg' => 'error', 'errinfo' => $errinfo));
+    }
+
+    $sql = prepare('INSERT INTO `characters_author` (`characters_id`, `name`, `created_by`, `created_at`, `updated_at`,`mugen_version`,
+        `opts`, `download_url`, `strength_highest`, `strength_lowest`, `remark`) VALUES (?s, ?s, ?s, ?s, ?s, ?i, ?s, ?s,?i,?i,?s)',
+        array($character_id, $author, $user_id, $now, $now, $version, $opts, $address, $strength_highest, $strength_lowest, $remark));
+
+    if (run_sql($sql)) {
+        return render_ajax(array('errcode' => 0, 'errmsg' => '提交成功', 'pk' => last_id()));
+    }
+    return render_ajax(array('errcode' => 1, 'errmsg' => db_error(), 'errinfo' => array('remark' => '保存失败')));
+}
+
+/**
+ * 保存同人图数据
+ * @return [type] [description]
+ */
+function save_figure()
+{
+    $primary_key = v('primary');
+    $figures = pure_with_en_comma(t(v('figures')));
+    $author = t(v('author'));
+    $keywords = pure_with_en_comma(t(v('keywords')));
+    $thumbnail = v('thumbnail');
+    $user_id = User::getUserId();
+    $now = $_SERVER['REQUEST_TIME'];
+
+    $errinfo = array();
+
+    if (empty($figures)) {
+        $errinfo['figures'] = '包含人物不能为空';
+    }
+
+    if (!empty($errinfo)) {
+        return render_ajax(array('errcode' => 1, 'errmsg' => 'error', 'errinfo' => $errinfo));
+    }
+
+    if ($primary_key && is_numeric($primary_key)) {
+        $sql = prepare('UPDATE `same_figures` SET `figures`=?s,`author`=?s, `keywords`=?s, `thumbnail`=?s,
+                        `updated_by`=?s,`updated_at`=?s WHERE `id`=?s;',
+            array($figures, $author, $keywords, $thumbnail, $user_id, $now, $primary_key));
+    } else {
+        $sql = prepare('INSERT INTO `same_figures` (`figures`, `author`, `keywords`, `thumbnail`, `created_at`, `created_by`)
+                    VALUES (?s, ?s, ?s, ?s, ?s, ?s)', array($figures, $author, $keywords, $thumbnail, $now, $user_id));
+    }
+
+    if (run_sql($sql)) {
+        return render_ajax(array('errcode' => 0, 'errmsg' => '提交成功'));
+    }
+    return render_ajax(array('errcode' => 1, 'errmsg' => db_error(), 'errinfo' => array('name' => '保存失败')));
+}
+/**
+ * 根据ID删除同人图
+ * @param  int $id
+ * @return ajax
+ */
+function del_figure_by_id($id)
+{
+    $sql = prepare('DELETE FROM `same_figures` WHERE `id`=?s;', array($id));
+
+    if (run_sql($sql)) {
+        return render_ajax(array('errcode' => 0, 'errmsg' => '删除成功'));
+    }
+    return render_ajax(array('errcode' => 1, 'errmsg' => '删除失败'));
+}
+
+/**
+ * 保存场景血条界面数据
+ * @return ajax
+ */
+function save_scenario()
+{
+    $primary_key = v('key');
+    $origin_download_url = v('origin_download_url');
+    $name = t(v('name'));
+    $category = v('category');
+    $belong_ftg = t(v('belong_ftg'));
+    $belong_anime = t(v('belong_anime'));
+    $author = t(v('author'));
+    $keywords = t(v('keywords'));
+    $thumbnail = v('thumbnail');
+    $version = v('version');
+    $download_url = v('download_url');
+    $remark = v('remark');
+
+    $belong_ftg_map = match_ftg($belong_ftg);
+    $belong_ftg_map = implode(',', $belong_ftg_map);
+
+    $user_id = User::getUserId();
+    $now = $_SERVER['REQUEST_TIME'];
+
+    $errinfo = array();
+
+    if (empty($name)) {
+        $errinfo['name'] = '场景名不能为空';
+    }
+    if (empty($belong_ftg)) {
+        $errinfo['belong_ftg'] = '所属格斗游戏不能为空';
+    }
+    if (empty($belong_anime)) {
+        $errinfo['belong_anime'] = '所属动漫不能为空';
+    }
+    if (empty($download_url)) {
+        $errinfo['download_url'] = '下载地址不能为空';
+    }
+
+    if (!empty($errinfo)) {
+        return render_ajax(array('errcode' => 1, 'errmsg' => 'error', 'errinfo' => $errinfo));
+    }
+
+    if ($primary_key) {
+        $sql = 'UPDATE `resource_list` SET `name`=?s, `category`=?i, `belong_ftg`=?s, `belong_ftg_map`=?s,
+                `belong_anime`=?s, author=?s, keywords=?s, `thumbnail`=?s, `version`=?i, `remark`=?s, `updated_by`=?s';
+        $prepare_data = array($name, $category, $belong_ftg, $belong_ftg_map,
+            $belong_anime, $author, $keywords, $thumbnail, $version, $remark, $user_id);
+        if ($download_url != $origin_download_url) {
+            $prepare_data[] = $now;
+            $prepare_data[] = $download_url;
+            $sql .= ' , `updated_at`=?s, `download_url`=?s ';
+        }
+        $prepare_data[] = $primary_key;
+        $sql .= ' WHERE `id`=?s;';
+
+        $sql = prepare($sql, $prepare_data);
+    } else {
+
+        $sql = prepare('INSERT INTO `resource_list` (`name`, `category`, `belong_ftg`, `belong_ftg_map`, `belong_anime`, `author`,
+                `keywords`, `thumbnail`, `version`, `download_url`, `remark`, `created_by`, `created_at`)
+                VALUES (?s, ?s, ?s, ?s, ?s, ?s, ?s, ?s, ?s, ?s, ?s, ?s, ?s)', array($name, $category, $belong_ftg, $belong_ftg_map,
+            $belong_anime, $author, $keywords, $thumbnail, $version, $download_url, $remark, $user_id, $now));
+    }
+
+    if (run_sql($sql)) {
+        return render_ajax(array('errcode' => 0, 'errmsg' => '保存成功'));
+    }
+    return render_ajax(array('errcode' => 1, 'errmsg' => '保存失败', 'errinfo' => array('remark' => db_error())));
 }

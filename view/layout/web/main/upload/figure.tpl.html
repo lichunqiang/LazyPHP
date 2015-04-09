@@ -1,36 +1,43 @@
 <?php require AROOT . 'view/layout/web/side/default/upload.tpl.html'; ?>
 <div class="col-md-9 col-xs-12">
-  <form class="form-horizontal">
+  <form id="figureForm" class="form-horizontal" method="POST" action="?c=api&a=upload_figure">
+    <input type="hidden" name="primary" value="<?= $primary_key ?>">
     <div class="form-group">
-      <label class="col-sm-3 control-label">图片包含人物：</label>
+      <label class="col-sm-3 control-label required">图片包含人物：</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" placeholder="请输入图片所包含的人物">
+        <input name="figures" type="text" class="form-control" placeholder="请输入图片所包含的人物" value="<?= get_default($model, 'figures') ?>">
         <small class="help-block">图片中包含的人物名，用英文逗号隔开，如：拉奥,saber</small>
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-3 control-label">作者：</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" placeholder="请输入作者">
+        <input name="author" type="text" class="form-control" placeholder="请输入作者" value="<?= get_default($model, 'author') ?>">
         <small class="help-block">为尊重作者的劳动成果，请写上作者的尊姓大名</small>
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-3 control-label">其他关键词：</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" placeholder="请输入关键词">
+        <input name="keywords" type="text" class="form-control" placeholder="请输入关键词" value="<?= get_default($model, 'keywords') ?>">
         <small class="help-block">多个关键字用英文逗号隔开</small>
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-3 control-label">原图：</label>
       <div class="col-sm-4">
-        <input type="file" class="form-control">
+        <div id="uploader-demo">
+          <!--用来存放item-->
+          <div id="fileList" class="uploader-list">
+            <?php if (isset($model['thumbnail']) && $model['thumbnail']): ?>
+              <img src="<?= $model['thumbnail'] ?>" alt="">
+            <?php endif ?>
+          </div>
+          <div id="filePicker">选择图片</div>
+        </div>
         <small class="help-block">请尽量保证上传的图片为原始尺寸</small>
       </div>
-      <div class="col-sm-5">
-        <img class="img-rounded" src="http://placehold.it/100x100">
-      </div>
+      <input type="hidden" name="thumbnail" id="hidThumbnail" value="<?= get_default($model, 'thumbnail') ?>">
     </div>
     <div class="form-group">
       <div class="col-sm-offset-3 col-sm-9">

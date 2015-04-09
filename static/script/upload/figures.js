@@ -1,6 +1,4 @@
 +function() {
-
-
   var uploader = WebUploader.create({
 
       // 选完文件后，是否自动上传。
@@ -48,27 +46,24 @@
     console.log('error', reason)
   });
 
-  //添加人物表单验证
-  var validator = $('#addCharacterForm').validate({
+  //表单验证
+  var $form = $('#figureForm'),
+      $submit = $('[type=submit]', $form);
+  var validator = $form.validate({
     rules: {
-      name: 'required',
-      belong_ftg: 'required',
-      belong_anime: 'required',
+      figures: 'required',
     },
     messages: {
-      name: '请填写人物名称',
-      belong_ftg: '请填写人物所属格斗游戏',
-      belong_anime: '请填写人物所属动漫作品',
+      figures: '此项必填'
     },
     submitHandler: function(form) {
-      var $submit = $(form).find('[type=submit]');
       $submit.data('loading-text', '保存中...').button('loading');
       $(form).ajaxSubmit({
         success: function(resp) {
+          $submit.button('reset');
           alert(resp.errmsg);
           resp.errcode == 1 && validator.showErrors(resp.errinfo || {name: '未知错误'});
-          resp.errcode === 0 && $('#primaryKey').val(resp.key);
-          $submit.button('reset');
+          resp.errcode === 0 && ($('#primaryKey').val(resp.key), window.location.reload());
         }
       });
       return false;
@@ -81,54 +76,4 @@
       $(element).closest('div.has-error').removeClass('has-error');
     }
   });
-
-  /*作者相关*/
-  var $addAuthorBtn = $('#addAuthorButton'),
-    render = template('tAuthorModal');
-
-  //添加作者弹出层
-  $addAuthorBtn.on('click', function() {
-    var $modal = $(render({title: '添加作者', button: '确定添加'}));
-    var primaryKey = $('#primaryKey').val();
-    if (!primaryKey) {
-      return alert('请先添加人物');
-    }
-    $modal.modal();
-    $modal.on('shown.bs.modal', function() {
-      init_pop_form(primaryKey);
-    });
-  });
-
-  function init_pop_form(character) {
-    //初始化弹出层内表单
-    $author_form = $('#authorForm'), $author_submit = $('#authorSubmitButton');
-    var author_validator = $author_form.validate({
-      rules: {
-        author: 'required',
-        address: {
-          required: true,
-          url: true
-        }
-      },
-      messages: {
-        author: '此项必填',
-        address: {
-          required: '此项必填',
-          url: '输入正确的URL地址'
-        }
-      },
-      submitHandler: function(form) {
-        $author_submit.button('loading');
-        $author_form.ajaxSubmit({
-          data: {character:character },
-          success: function(resp) {
-            $author_submit.button('reset');
-            alert(resp.errmsg);
-            resp.errcode == 1 && (author_validator.showErrors(resp.errinfo || {'remark': '未知错误'}));
-          }
-        });
-      }
-    }); 
-  }
-
 }();

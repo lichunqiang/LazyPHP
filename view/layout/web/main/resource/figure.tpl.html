@@ -2,16 +2,20 @@
 <div class="col-md-9 col-xs-12">
   <div class="col-md-12 pb20 border-bottom">
     <p class="text-center mb20" style="font-size:25px;">同人图素材搜索</p>
-    <div class="form-inline text-center">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="请输入搜索关键字">
+    <form method="GET">
+      <input type="hidden" name="c" value="resource">
+      <input type="hidden" name="a" value="figure">
+      <div class="form-inline text-center">
+        <div class="form-group">
+          <input name="q" type="text" class="form-control" placeholder="请输入搜索关键字" value="<?= z(v('q')) ?>">
+        </div>
+        <button type="submit" class="btn btn-default">检索</button>
       </div>
-      <button type="submit" class="btn btn-default">检索</button>
-    </div>
+    </form>
   </div>
 </div>
 <div class="col-md-12">
-  <table class="table">
+  <table class="table" id="listTable">
     <tr>
       <th>#</th>
       <th>缩略图</th>
@@ -20,32 +24,38 @@
       <th>操作</th>
     </tr>
     <tbody>
+    <?php foreach ($figure_list as $key => $figure): ?>
       <tr>
-        <td>1</td>
-        <td><a href="http://placehold.it/100x100" target="_blank"><img class="img-rounded" src="http://placehold.it/100x100"></a></td>
-        <td>不详</td>
-        <td>暴风、文文</td>
+        <td><?= $key + 1 ?></td>
+        <td><a href="<?= $figure['thumbnail'] ?>" target="_blank"><img class="img-rounded" src="<?= $figure['thumbnail'] ?>" width="100" height="100"></a></td>
+        <td><?= $figure['author'] ?: '不详' ?></td>
+        <td><?= $figure['figures'] ?></td>
         <td>
-          <a href=""><i class="glyphicon glyphicon-edit"></i></a>
+          <a href="?c=upload&a=figure&id=<?= $figure['id'] ?>"><i class="glyphicon glyphicon-edit"></i></a>
           <a href=""><i class="glyphicon glyphicon-star"></i></a>
-          <a href=""><i class="glyphicon glyphicon-remove"></i></a>
+          <a href="javascript:void(0);" data-remove="<?= $figure['id'] ?>"><i class="glyphicon glyphicon-remove"></i></a>
         </td>
       </tr>
-      <tr>
-        <td>2</td>
-        <td><a href="http://placehold.it/100x100" target="_blank"><img class="img-rounded" src="http://placehold.it/100x100"></a></td>
-        <td>不详</td>
-        <td>暴风、文文</td>
-        <td>
-          <a href=""><i class="glyphicon glyphicon-edit"></i></a>
-          <a href=""><i class="glyphicon glyphicon-star"></i></a>
-          <a href=""><i class="glyphicon glyphicon-remove"></i></a>
-        </td>
-      </tr>
+    <?php endforeach ?>
     </tbody>
   </table>
   <nav class="clearfix">
-    <strong class="pull-left mt25">共12条新闻</strong>
-    <?= pagination(12, '?c=resource&a=person', v('page_idx', 1)) ?>
+    <strong class="pull-left mt25">总共<?= $figure_count ?>,显示<?= ($page_idx - 1) * $page_size ?>至<?= $page_idx * $page_size ?></strong>
+    <?= pagination($figure_count, '?c=resource&a=figure', $page_idx, $page_size) ?>
   </nav>
 </div>
+<script>
+  (function() {
+    //删除
+    $('#listTable [data-remove]').on('click', function() {
+      var pk = $(this).data('remove');
+      if (confirm('确定删除？删除之后将无法恢复')) {
+        $.post('?c=api&a=del_figure', {pk: pk})
+        .done(function(resp) {
+          alert(resp.errmsg);
+          resp.errcode == 0 && (window.location.reload());
+        });
+      }
+    });
+  })();
+</script>

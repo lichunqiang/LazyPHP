@@ -7,7 +7,7 @@ $conditions = g('person_search_condition');
     <div class="form-group">
       <label class="col-sm-3 control-label required">场景名称：</label>
       <div class="col-sm-9">
-        <input name="name" type="text" class="form-control" placeholder="请输入场景名称">
+        <input name="name" type="text" class="form-control" placeholder="请输入场景名称" value="<?= $model['name'] ?>">
         <small class="help-block">可以直接写文件名</small>
       </div>
     </div>
@@ -16,7 +16,7 @@ $conditions = g('person_search_condition');
       <div class="col-sm-9">
         <select name="category" class="form-control">
           <?php foreach ($conditions['category'] as $key => $value): ?>
-            <option value="<?= $key ?>"><?= $value ?></option>
+            <option value="<?= $key ?>" <?php if ($model['category'] == $key): ?>selected="selected"<?php endif ?>><?= $value ?></option>
           <?php endforeach ?>
         </select>
       </div>
@@ -24,28 +24,28 @@ $conditions = g('person_search_condition');
     <div class="form-group">
       <label class="col-sm-3 control-label required">所属格斗游戏：</label>
       <div class="col-sm-9">
-        <input name="belong_ftg" type="text" class="form-control" placeholder="请输入所属格斗游戏">
+        <input name="belong_ftg" type="text" class="form-control" placeholder="请输入所属格斗游戏" value="<?= $model['belong_ftg'] ?>">
         <small class="help-block">该场景出自的格斗游戏，原创场景写原创</small>
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-3 control-label required">所属动漫作品：</label>
       <div class="col-sm-9">
-        <input name="belong_anime" type="text" class="form-control" placeholder="请输入所属动漫作品" value="无">
+        <input name="belong_anime" type="text" class="form-control" placeholder="请输入所属动漫作品" value="<?= $model['belong_anime'] ?>">
         <small class="help-block">该场景出自的动漫作品，若没有则默认无</small>
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-3 control-label">作者：</label>
       <div class="col-sm-9">
-        <input name="author" type="text" class="form-control" placeholder="请输入作者">
+        <input name="author" type="text" class="form-control" placeholder="请输入作者" value="<?= $model['author'] ?>">
         <small class="help-block">为尊重作者的劳动成果，请写上作者的尊姓大名</small>
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-3 control-label">其他关键字：</label>
-      <div class="col-sm-9">
-        <input name="keywords" type="text" class="form-control" placeholder="请输入关键词">
+      <div class="col-sm-9"> 
+        <input name="keywords" type="text" class="form-control" placeholder="请输入关键词" value="<?= $model['keywords'] ?>">
         <small class="help-block">多个关键字用英文逗号隔开</small>
       </div>
     </div>
@@ -54,12 +54,16 @@ $conditions = g('person_search_condition');
       <div class="col-sm-4">
         <div id="uploader-demo">
           <!--用来存放item-->
-          <div id="fileList" class="uploader-list"> </div>
+          <div id="fileList" class="uploader-list"> 
+          <?php if ($model['thumbnail']): ?>
+            <img src="<?= $model['thumbnail'] ?>" alt="">
+          <?php endif ?>
+          </div>
           <div id="filePicker">选择图片</div>
         </div>
       </div>
       <div class="col-sm-5">
-        <input type="hidden" name="thumbnail" id="hidThumbnail" >
+        <input type="hidden" name="thumbnail" id="hidThumbnail" value="<?= $model['thumbnail'] ?>">
       </div>
     </div>
     <div class="form-group">
@@ -67,7 +71,7 @@ $conditions = g('person_search_condition');
       <div class="col-sm-9">
         <select name="version" class="form-control">
           <?php foreach ($conditions['mugen_version'] as $key => $value): ?>
-            <option value="<?= $key ?>"><?= $value ?></option>
+            <option value="<?= $key ?>" <?php if ($model['version'] == $key): ?>selected="selected"<?php endif ?>><?= $value ?></option>
           <?php endforeach ?>
         </select>
       </div>
@@ -75,13 +79,13 @@ $conditions = g('person_search_condition');
     <div class="form-group">
       <label class="col-sm-3 control-label required">下载地址：</label>
       <div class="col-sm-9">
-        <input name="download_url" type="text" class="form-control" placeholder="请输入下载地址">
+        <input name="download_url" type="text" class="form-control" placeholder="请输入下载地址" value="<?= $model['download_url'] ?>">
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-3 control-label">备注：</label>
       <div class="col-sm-9">
-        <textarea name="remark" rows="5" class="form-control" placeholder="备注内容"></textarea>
+        <textarea name="remark" rows="5" class="form-control" placeholder="备注内容"><?= z($model['remark']) ?></textarea>
       </div>
     </div>
     <div class="form-group">
@@ -100,5 +104,7 @@ $conditions = g('person_search_condition');
         <a class="btn btn-default" href="/">取消</a>
       </div>
     </div>
+    <input type="hidden" name="key" value="<?= $model['id'] ?>">
+    <input type="hidden" name="origin_download_url" value="<?= $model['download_url'] ?>">
   </form>
 </div>

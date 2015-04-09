@@ -3,11 +3,14 @@
 $conditions = g('person_search_condition');
  ?>
 <div class="col-md-9 col-xs-12 mb20">
+  <form method="GET">
+  <input type="hidden" name="c" value="resource">
+  <input type="hidden" name="a" value="scenario">
   <div class="col-md-12 pb20 border-bottom">
     <p class="text-center mb20" style="font-size:25px;">场景、血条、选人界面搜索</p>
     <div class="form-inline text-center">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="请输入搜索关键字">
+        <input name="q" type="text" class="form-control" placeholder="请输入搜索关键字" value="<?= z(v('q')) ?>">
       </div>
       <button type="submit" class="btn btn-default">检索</button>
     </div>
@@ -15,14 +18,14 @@ $conditions = g('person_search_condition');
   <div class="col-md-12 form-inline mb15 mt15">
     <div class="form-group ml55">
       <label class="mr10">作者</label>
-      <input type="text" class="form-control" placeholder="请输入搜索关键字">
+      <input name="author" type="text" class="form-control" placeholder="请输入搜索关键字" value="<?= z(v('author')) ?>">
     </div>
     <div class="form-group ml55">
       <label class="mr10">可用Mugen版本</label>
-      <select name="" id="" class="form-control">
+      <select name="version" class="form-control">
         <option value="">不限</option>
         <?php foreach ($conditions['mugen_version'] as $key => $value): ?>
-        <option value="<?= $key ?>"><?= $value ?></option>
+        <option value="<?= $key ?>" <?php if (v('version') == $key): ?>selected="selected"<?php endif ?>><?= $value ?></option>
         <?php endforeach ?>
       </select>
     </div>
@@ -30,20 +33,21 @@ $conditions = g('person_search_condition');
   <div class="col-md-12 form-inline mb15">
     <div class="form-group" style="margin-left:28px;">
       <label class="mr10">作品来源</label>
-      <input type="text" class="form-control" placeholder="请输入搜索关键字">
+      <input name="source" type="text" class="form-control" placeholder="请输入搜索关键字" value="<?= z(v('source')) ?>">
     </div>
   </div>
   <div class="col-md-12 form-inline">
     <div class="form-group ml55">
       <label class="mr10">类别</label>
-      <select name="" id="" class="form-control">
+      <select name="category" class="form-control">
         <option value="">不限</option>
         <?php foreach ($conditions['category'] as $key => $value): ?>
-        <option value="<?= $key ?>"><?= $value ?></option>
+        <option value="<?= $key ?>" <?php if (v('category') == $key): ?>selected="selected"<?php endif ?>><?= $value ?></option>
         <?php endforeach ?>
       </select>
     </div>
   </div>
+  </form>
 </div>
 <!-- 列表 -->
 <div class="col-md-12 col-xs-12 table-responsive">
@@ -55,40 +59,36 @@ $conditions = g('person_search_condition');
       <th>出处</th>
       <th>最近更新</th>
       <th>备注</th>
+      <th>关键词</th>
       <th>mugen版本</th>
       <th>操作</th>
     </tr>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td><a href="">任务打</a></td>
-        <td>sss</td>
-        <td>北斗神拳</td>
-        <td>2015-03-14</td>
-        <td>12p无限气金身，1p强袭，1.1主程序中无法带入版本</td>
-        <td>不限</td>
-        <td>
-          <a href=""><i class="glyphicon glyphicon-edit"></i></a>
-          <a href=""><i class="glyphicon glyphicon-star"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td><a href="">任务打 <br>ligh</a></td>
-        <td>强-凶 <br> (基本完成)</td>
-        <td>北斗神拳</td>
-        <td>2015-03-14</td>
-        <td>12p无限气金身，1p强袭，1.1主程序中无法带入版本</td>
-        <td>不限</td>
-        <td>
-          <a href=""><i class="glyphicon glyphicon-edit"></i></a>
-          <a href=""><i class="glyphicon glyphicon-star"></i></a>
-        </td>
-      </tr>
+    <?php foreach ($resource_list as $key => $resource): ?>
+    <tr>
+      <td><?= $key + 1 ?></td>
+      <td><a href="javascript:void(0);" data-toggle="popover" data-html="true" data-content="<img class='resouce-img' src='<?= $resource['thumbnail'] ?>'>"><?= z($resource['name']) ?></a></td>
+      <td><?= $conditions['category'][$resource['category']] ?></td>
+      <td><?= $resource['belong_ftg'] ?></td>
+      <td><?= date('Y-m-d', $resource['updated_at'] ?: $resource['created_at']) ?></td>
+      <td><?= z($resource['remark']) ?></td>
+      <td><?= $conditions['mugen_version'][$resource['version']] ?></td>
+      <td><?= z($resource['keywords']) ?></td>
+      <td>
+        <a href="?c=upload&a=upscenario&id=<?= $resource['id'] ?>"><i class="glyphicon glyphicon-edit"></i></a>
+        <a href=""><i class="glyphicon glyphicon-star"></i></a>
+      </td>
+    </tr>
+    <?php endforeach ?>
     </tbody>
   </table>
   <nav class="clearfix">
-    <strong class="pull-left mt25">共12条新闻</strong>
-    <?= pagination(12, '?c=resource&a=person', v('page_idx', 1)) ?>
+    <strong class="pull-left mt25">总共<?= $resource_count ?>,显示<?= ($page_idx - 1) * $page_size ?>至<?= $page_idx * $page_size ?></strong>
+    <?= pagination($resource_count, '?c=resource&a=scenario&q=' . v('q') . '&author=' . v('author') . '&version=' . v('version') . '&category=' . v('category') . '&source=' .v('source') , $page_idx, $page_size) ?>
   </nav>
 </div>
+<script>
+(function(){
+  $('[data-toggle=popover]').popover({container:'body', trigger: 'hover'});
+})();
+</script>

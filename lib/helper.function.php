@@ -13,3 +13,17 @@ function match_ftg($search)
     }
     return $mathed;
 }
+
+function pure_with_en_comma($string)
+{
+    if (strpos($string, '，')){
+        return str_replace('，', ',', $string);
+    }
+    return $string;
+}
+
+
+function get_default($arr, $key, $default = null)
+{
+    return isset($arr[$key]) ? $arr[$key] : $default;
+}

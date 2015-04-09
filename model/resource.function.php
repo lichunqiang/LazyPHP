@@ -55,6 +55,153 @@ function get_author_list($query, $page_idx = 1, $page_size = 10, $checked = 1)
     return get_data($sql) ?: array();
 }
 /**
+ * 获取同人图总数
+ * @param  string  $query   查询条件：包含人物或者作者
+ * @param  integer $checked 是否显示
+ * @return int 同人图总数
+ */
+function get_figure_count($query, $checked = 1)
+{
+    $prepare_data = array();
+    if ($checked === false) {
+        $sql = 'SELECT COUNT(*) `total` FROM `same_figures` WHERE 1';
+    } else {
+        $sql = 'SELECT COUNT(*) `total` FROM `same_figures` WHERE `status`= ?i';
+        $prepare_data[] = $checked;
+    }
+    if ($query) {
+        $sql .= ' AND (`figures` LIKE ?s OR `author` LIKE ?s)';
+        $prepare_data = array_pad($prepare_data, 3, '%' . $query . '%');
+    }
+    $sql = prepare($sql, $prepare_data);
+
+    return (int) get_var($sql);
+}
+/**
+ * 获取同人图列表
+ * @param  string  $query     查询条件：查询条件：包含人物或者作者
+ * @param  integer $page_idx  页数
+ * @param  integer $page_size 每页数量
+ * @param  integer $checked   是否显示
+ * @return array|boolean 成功返回列表，失败返回false
+ */
+function get_figure_list($query, $page_idx = 1, $page_size = 10, $checked = 1)
+{
+    $page_offset = ($page_idx - 1) * $page_size;
+    $prepare_data = array();
+
+    if ($checked === false) {
+        $sql = 'SELECT * FROM `same_figures` WHERE 1';
+    } else {
+        $sql = 'SELECT * FROM `same_figures` WHERE `status` = ?i';
+        $prepare_data[] = $checked;
+    }
+
+    if ($query) {
+        $sql .= ' AND (`figures` LIKE ?s OR `author` LIKE ?s)';
+        $prepare_data = array_pad($prepare_data, 3, '%' . $query . '%');
+    }
+    $sql .= '  ORDER BY `updated_at` DESC, `created_at` DESC LIMIT ?i OFFSET ?i;';
+    $prepare_data[] = $page_size;
+    $prepare_data[] = $page_offset;
+
+    $sql = prepare($sql, $prepare_data);
+
+    return get_data($sql) ?: array();
+}
+/**
+ * 获取场景、血条和界面数据总数
+ * @param  string  $query   查询条件：包含人物或者作者
+ * @param  integer $checked 是否显示
+ * @return int 同人图总数
+ */
+function get_resource_count($query, $checked = 1)
+{
+    $prepare_data = array();
+    if ($checked === false) {
+        $sql = 'SELECT COUNT(*) `total` FROM `resource_list` WHERE 1';
+    } else {
+        $sql = 'SELECT COUNT(*) `total` FROM `resource_list` WHERE `status`= ?i';
+        $prepare_data[] = $checked;
+    }
+    if ($version = v('version')) {
+        $sql .= ' AND `version`=?i ';
+        $prepare_data[] = $version;
+    }
+    if ($category = v('category')) {
+        $sql .= ' AND `category`=?i ';
+        $prepare_data[] = $category;
+    }
+    if ($query) {
+        $sql .= ' AND (`name` LIKE ?s OR `keywords` LIKE ?s)';
+        $prepare_data = array_pad($prepare_data, 3, '%' . $query . '%');
+    }
+    if ($author = v('author')) {
+        $sql .= ' AND `author` LIKE ?s';
+        $prepare_data[] = '%' . $author . '%';
+    }
+
+    if ($source = v('source')) {
+        $source = implode(',', match_ftg($source));
+        $sql .= ' AND `belong_ftg_map` = ?s ';
+        $prepare_data[] = $source;
+    }
+
+    $sql = prepare($sql, $prepare_data);
+
+    return (int) get_var($sql);
+}
+/**
+ * 获取场景、血条、界面列表
+ * @param  string  $query     查询条件：查询条件：包含人物或者作者
+ * @param  integer $page_idx  页数
+ * @param  integer $page_size 每页数量
+ * @param  integer $checked   是否显示
+ * @return array|boolean 成功返回列表，失败返回false
+ */
+function get_resource_list($query, $page_idx = 1, $page_size = 10, $checked = 1)
+{
+    $page_offset = ($page_idx - 1) * $page_size;
+    $prepare_data = array();
+
+    if ($checked === false) {
+        $sql = 'SELECT * FROM `resource_list` WHERE 1';
+    } else {
+        $sql = 'SELECT * FROM `resource_list` WHERE `status` = ?i';
+        $prepare_data[] = $checked;
+    }
+    if ($version = v('version')) {
+        $sql .= ' AND `version`=?i ';
+        $prepare_data[] = $version;
+    }
+    if ($category = v('category')) {
+        $sql .= ' AND `category`=?i ';
+        $prepare_data[] = $category;
+    }
+    if ($query) {
+        $sql .= ' AND (`name` LIKE ?s OR `keywords` LIKE ?s)';
+        $prepare_data = array_pad($prepare_data, 3, '%' . $query . '%');
+    }
+    if ($author = v('author')) {
+        $sql .= ' AND `author` LIKE ?s';
+        $prepare_data[] = '%' . $author . '%';
+    }
+
+    if ($source = v('source')) {
+        $source = implode(',', match_ftg($source));
+        $sql .= ' AND `belong_ftg_map` = ?s ';
+        $prepare_data[] = $source;
+    }
+
+    $sql .= '  ORDER BY `updated_at` DESC, `created_at` DESC LIMIT ?i OFFSET ?i;';
+    $prepare_data[] = $page_size;
+    $prepare_data[] = $page_offset;
+
+    $sql = prepare($sql, $prepare_data);
+
+    return get_data($sql) ?: array();
+}
+/**
  * 获取人物总数
  * @return int
  */

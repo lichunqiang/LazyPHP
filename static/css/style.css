@@ -214,7 +214,10 @@ border-bottom: 1px dashed #ccc;
   max-width: 200px;
 }
 
-#content {
+#body-content {
   background-color: #fff;
   padding: 15px 10px;
 }
+
+img.resouce-img {max-width: 270px;max-height: 190px;}
+.popover{max-width: 300px;}
